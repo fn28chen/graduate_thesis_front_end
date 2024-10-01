@@ -1,7 +1,5 @@
 "use client";
 import React from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/Button/button";
 import { Grid, List } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
