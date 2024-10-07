@@ -5,6 +5,12 @@ import { Button } from "@/components/ui/Button/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { HelpCircle, Menu, Search, Settings } from "lucide-react";
 import ThemeToggle from "@/components/theme/components/theme-toggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 export default function NavBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   return (
@@ -30,12 +36,23 @@ export default function NavBar() {
           <Menu className="h-6 w-6" />
         </Button>
         <ThemeToggle />
-        <Button size="icon" variant="ghost" className="h-12 w-12 rounded-full">
-          <Avatar className="h-[40px] w-[40px]">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-12 w-12 rounded-full"
+            >
+              <Avatar className="h-[40px] w-[40px]">
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" sideOffset={5}>
+            <DropdownMenuLabel>Profile</DropdownMenuLabel>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );
