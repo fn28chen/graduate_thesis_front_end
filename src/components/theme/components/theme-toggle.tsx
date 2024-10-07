@@ -1,3 +1,5 @@
+import ICMoon from "@/components/icon/ICMoon";
+import ICSun from "@/components/icon/ICSun";
 import { useTheme } from "next-themes";
 import React from "react";
 
@@ -8,11 +10,14 @@ function ThemeToggle() {
     setTheme(theme === "light" ? "dark" : "light");
   };
   return (
-    <div>
-      <button onClick={toggleTheme} className="toggle-theme">
-        Toggle Theme
-      </button>
-    </div>
+    <button
+      className="flex items-center justify-center rounded bg-zinc-700 shadow duration-300 ease-in-out hover:scale-110 hover:bg-zinc-800 hover:shadow-xl dark:bg-zinc-800 dark:hover:bg-zinc-700"
+      onClick={toggleTheme}
+    >
+      <div className="p-2 text-zinc-100">
+        {theme === "dark" ? <ICSun /> : <ICMoon />}
+      </div>
+    </button>
   );
 }
 
