@@ -5,7 +5,7 @@ import Main from "./Main";
 
 export default function Layout() {
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden">
         <NavBar />

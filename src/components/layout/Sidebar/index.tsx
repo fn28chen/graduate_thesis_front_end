@@ -6,7 +6,7 @@ import { sidebarItems } from "@/utils/common";
 
 export default function Sidebar() {
   return (
-    <aside className="flex flex-col w-64 bg-white p-6 border-r">
+    <aside className="flex flex-col w-64 p-6 border-r">
       <div className="flex items-center mb-8">
         <HardDrive className="h-8 w-8 text-blue-500 mr-3" />
         <h1 className="text-2xl font-semibold">Cloud Drive</h1>

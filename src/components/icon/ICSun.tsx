@@ -4,10 +4,10 @@ function ICSun(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       data-testid="geist-icon"
-      height="16"
+      width="24"
+      height="24"
       stroke-linejoin="round"
       viewBox="0 0 16 16"
-      width="16"
       style={{ color: "currentcolor" }}
       {...props}
     >
