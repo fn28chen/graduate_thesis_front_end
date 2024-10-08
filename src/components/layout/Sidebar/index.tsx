@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { HardDrive, Plus } from "lucide-react";
 import { Button } from "@/components/ui/Button/button";
 import { sidebarItems } from "@/utils/common";
 
 export default function Sidebar() {
+  
   return (
     <aside className="flex flex-col w-64 p-6 border-r">
       <div className="flex items-center mb-8">

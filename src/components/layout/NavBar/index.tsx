@@ -1,18 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { HelpCircle, Menu, Search, Settings } from "lucide-react";
+import { HelpCircle, Menu, Search, Settings, User } from "lucide-react";
 import ThemeToggle from "@/components/theme/components/theme-toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { UserContext } from "@/context/user-context";
 export default function NavBar() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { user, setUser } = useContext(UserContext);
   return (
     <header className="border-b p-6 flex items-center justify-between">
       <div className="flex items-center w-full max-w-2xl">
@@ -37,7 +40,7 @@ export default function NavBar() {
         </Button>
         <ThemeToggle />
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
             <Button
               size="icon"
               variant="ghost"
@@ -49,8 +52,14 @@ export default function NavBar() {
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" sideOffset={5}>
-            <DropdownMenuLabel>Profile</DropdownMenuLabel>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Subscription</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Logout</DropdownMenuLabel>
+            <DropdownMenuItem>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
