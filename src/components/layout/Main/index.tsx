@@ -40,7 +40,7 @@ export default function Main() {
           {files.map((file, index) => (
             <div
               key={index}
-              className={`p-6 rounded-lg shadow-md ${
+              className={`p-6 rounded-lg shadow-md border ${
                 view === "list" ? "flex items-center" : ""
               }`}
             >
