@@ -14,29 +14,28 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { UserContext } from "@/context/user-context";
 import { useToast } from "@/hooks/use-toast";
-
-const formSchema = z.object({
-  email: z.string().email({
-    message: "Please enter a valid email.",
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
-  }),
-});
+import { loginSchema } from "@/components/ui/FormConfig/Schema";
 
 export default function Login() {
   const { setUser } = useContext(UserContext);
   const router = useRouter();
+  const pathname = usePathname();
   const { toast } = useToast();
+  
+  // 0. Check pathname
+  console.log("Pathname: ", pathname);
+  const formSchema = loginSchema;
 
+  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
+  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await fetch("http://localhost:8080/auth/login", {
@@ -83,7 +82,7 @@ export default function Login() {
   };
 
   return (
-    <section className="flex items-center justify-center min-h-screen">
+    <section className="">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -124,11 +123,11 @@ export default function Login() {
             <Button type="submit" onClick={handleSubmit}>
               Submit
             </Button>
-            <Link href="/auth/signup">
+            <Link href="/signup">
               <div className="flex flex-row justify-center items-center">
                 <p>Don&apos;t have an account?</p>
                 <Button variant="link">
-                  <p className=" text-blue-600">Register</p>
+                  <p className=" text-blue-600">Sign Up</p>
                 </Button>
               </div>
             </Link>
