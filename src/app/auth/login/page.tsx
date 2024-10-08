@@ -28,7 +28,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function ProfileForm() {
+export default function Login() {
   const { setUser } = useContext(UserContext);
   const router = useRouter();
   const { toast } = useToast();
@@ -124,9 +124,9 @@ export default function ProfileForm() {
             <Button type="submit" onClick={handleSubmit}>
               Submit
             </Button>
-            <Link href="/auth/register">
+            <Link href="/auth/signup">
               <div className="flex flex-row justify-center items-center">
-                <p>Don{`&apos;`}t have an account?</p>
+                <p>Don&apos;t have an account?</p>
                 <Button variant="link">
                   <p className=" text-blue-600">Register</p>
                 </Button>

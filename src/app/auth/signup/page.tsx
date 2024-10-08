@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -8,17 +9,20 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { UserContext } from "@/context/user-context";
+import { useContext } from "react";
+import { useRouter } from "next/router";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z
   .object({
-    profile_name: z.string().min(2, {
+    username: z.string().min(2, {
       message: "Profile Name must be at least 2 characters.",
     }),
     password: z.string().min(8, {
@@ -30,21 +34,18 @@ const formSchema = z
     email: z.string().email({
       message: "Please enter a valid email.",
     }),
-    phone: z.string().min(10, {
-      message: "Phone must be at least 10 characters.",
-    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
-export default function ProfileForm() {
+export default function SignUp() {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      profile_name: "",
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -53,30 +54,20 @@ export default function ProfileForm() {
 
   // 2. Define a submit handler.
   const onSubmit = async ({
-    profile_name,
+    username,
     email,
-    phone,
     password,
   }: z.infer<typeof formSchema>) => {
     const userData = {
-      fullName: profile_name,
+      username,
       email,
-      phone,
       password,
     };
     try {
-      const response = await fetch("http://localhost:8080/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-      
-      if(!response.ok) {
+      const response = await axios.post("http://localhost:8080/auth/signup", userData);
+      if (response.status !== 200) {
         throw new Error("An error occurred while registering");
       }
-
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -91,10 +82,10 @@ export default function ProfileForm() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name="profile_name"
+            name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Profile Name</FormLabel>
+                <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input placeholder="shadcn" {...field} />
                 </FormControl>
@@ -107,18 +98,6 @@ export default function ProfileForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="shadcn" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone</FormLabel>
                 <FormControl>
                   <Input placeholder="shadcn" {...field} />
                 </FormControl>
