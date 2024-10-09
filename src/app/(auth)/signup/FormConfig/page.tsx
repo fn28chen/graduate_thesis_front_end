@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -15,32 +14,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UserContext } from "@/context/user-context";
-import { useContext } from "react";
-import { useRouter } from "next/router";
-import { useToast } from "@/hooks/use-toast";
+import { usePathname } from "next/navigation";
+import { registerSchema } from "@/components/ui/FormConfig/Schema";
 
-const formSchema = z
-  .object({
-    username: z.string().min(2, {
-      message: "Profile Name must be at least 2 characters.",
-    }),
-    password: z.string().min(8, {
-      message: "Password must be at least 8 characters.",
-    }),
-    confirmPassword: z.string().min(8, {
-      message: "Password must be at least 8 characters.",
-    }),
-    email: z.string().email({
-      message: "Please enter a valid email.",
-    }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+export default function Register() {
+  const pathname = usePathname();
 
-export default function SignUp() {
+  // 0. Check pathname
+  console.log(pathname);
+  const formSchema = registerSchema;
+  console.log("Pathname: ", pathname);
+  
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,10 +48,18 @@ export default function SignUp() {
       password,
     };
     try {
-      const response = await axios.post("http://localhost:8080/auth/signup", userData);
-      if (response.status !== 200) {
+      const response = await fetch("http://localhost:8080/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+      
+      if(!response.ok) {
         throw new Error("An error occurred while registering");
       }
+
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -77,7 +69,7 @@ export default function SignUp() {
   const isLoading = form.formState.isSubmitting;
 
   return (
-    <section className="flex items-center justify-center min-h-screen">
+    <section className="">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -85,7 +77,7 @@ export default function SignUp() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Profile Name</FormLabel>
                 <FormControl>
                   <Input placeholder="shadcn" {...field} />
                 </FormControl>

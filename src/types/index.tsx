@@ -1,15 +1,24 @@
-export interface IUserLogin {
+export interface IFormUserSignUp {
     username: string;
+    password: string;
+    confirmPassword: string;
+    email: string;
+}
+
+export interface IFormUserLogin {
+    username: string;
+    password: string;
+    confirmPassword: string;
+}
+
+export interface IUserSignUp {
+    username: string;
+    password: string;
+    email: string;
+}
+
+export interface IUserLogin {
+    email: string;
     password: string;
 }
 
-export interface IAccountInfo {
-    user?: IUserLogin;
-    accessToken?: string;
-    refreshToken?: string;
-}
-
-export interface IUser {
-    fullName: string;
-    email: string;
-}
