@@ -14,17 +14,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { registerSchema } from "@/components/ui/FormConfig/Schema";
+import axios from "axios";
+import Config from "@/config";
 
 export default function Register() {
   const pathname = usePathname();
+  const router = useRouter();
 
   // 0. Check pathname
   console.log(pathname);
   const formSchema = registerSchema;
   console.log("Pathname: ", pathname);
-  
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,18 +51,22 @@ export default function Register() {
       password,
     };
     try {
-      const response = await fetch("http://localhost:8080/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-      
-      if(!response.ok) {
+      const response = await axios.post(
+        `${Config.NETWORK_CONFIG.API_BASE_URL}` + "/auth/signup",
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status !== 201) {
         throw new Error("An error occurred while registering");
       }
 
+      // Navigate to the login page after successful registration
+      router.push(Config.PATHNAME.LOGIN);
     } catch (error) {
       console.error("An error occurred:", error);
     }

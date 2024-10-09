@@ -1,9 +1,9 @@
 "use client";
-import Link from "next/link";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
+import Config from "@/config";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,13 +19,14 @@ import { useContext } from "react";
 import { UserContext } from "@/context/user-context";
 import { useToast } from "@/hooks/use-toast";
 import { loginSchema } from "@/components/ui/FormConfig/Schema";
+import { getCookie, setCookie } from 'typescript-cookie'
 
 export default function Login() {
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const router = useRouter();
   const pathname = usePathname();
   const { toast } = useToast();
-  
+
   // 0. Check pathname
   console.log("Pathname: ", pathname);
   const formSchema = loginSchema;
@@ -38,19 +39,31 @@ export default function Login() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch("http://localhost:8080/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      const response = await axios.post(
+        `${Config.NETWORK_CONFIG.API_BASE_URL}` + "/auth/login",
+        values,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status === 201) {
+        const data = response.data;
         console.log("Login successful", data);
-        localStorage.setItem("user", JSON.stringify(data));
+
+        // Store part of user data in localStorage
+        const { accessToken, refreshToken, ...userData } = data;
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        // Store accessToken and refreshToken in cookies
+        setCookie("accessToken", accessToken, { expires: 1 });
+        setCookie("refreshToken", refreshToken, { expires: 1 });
+
+        // Update user context
         setUser(data);
+        console.log(user);
 
         toast({
           title: "Login successfully!",
@@ -58,8 +71,7 @@ export default function Login() {
           duration: 1000,
         });
       } else {
-        const errorData = await response.json();
-        console.error("Login failed", errorData);
+        console.error("Login failed", response.data);
 
         toast({
           title: "Login failed!",
