@@ -123,14 +123,6 @@ export default function Login() {
             <Button type="submit" onClick={handleSubmit}>
               Submit
             </Button>
-            <Link href="/signup">
-              <div className="flex flex-row justify-center items-center">
-                <p>Don&apos;t have an account?</p>
-                <Button variant="link">
-                  <p className=" text-blue-600">Sign Up</p>
-                </Button>
-              </div>
-            </Link>
           </div>
         </form>
       </Form>

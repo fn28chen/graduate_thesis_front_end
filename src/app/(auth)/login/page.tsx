@@ -1,10 +1,10 @@
 "use client";
-import Link from "next/link"
+import Link from "next/link";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
-import Login from "@/app/(auth)/login/FormConfig/page"
+import Login from "@/app/(auth)/login/FormConfig/page";
 
 export default function LoginPage() {
   return (
@@ -16,9 +16,7 @@ export default function LoginPage() {
           "absolute left-4 top-4 md:left-8 md:top-8"
         )}
       >
-        <>
-          Back
-        </>
+        <>Back</>
       </Link>
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
@@ -32,7 +30,7 @@ export default function LoginPage() {
         <Login />
         <p className="px-8 text-center text-sm text-muted-foreground">
           <Link
-            href="/register"
+            href="/signup"
             className="hover:text-brand underline underline-offset-4"
           >
             Don&apos;t have an account? Sign Up
@@ -40,5 +38,5 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
-  )
+  );
 }
