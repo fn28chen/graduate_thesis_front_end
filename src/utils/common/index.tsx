@@ -1,3 +1,8 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import config from "@/config";
+import { getCookies } from "typescript-cookie";
+
 import {
   ChevronRight,
   Home,
@@ -8,9 +13,6 @@ import {
   AlertCircle,
   Trash2,
   Database,
-  Plus,
-  Grid,
-  List,
 } from "lucide-react";
 
 export function getFileIconColor(type: string) {
@@ -44,20 +46,34 @@ export const sidebarItems = [
   { icon: Database, label: "Storage" },
 ];
 
-export const files = [
-  { name: "Document 1", type: "doc" },
-  { name: "Spreadsheet 1", type: "sheet" },
-  { name: "Presentation 1", type: "slide" },
-  { name: "Image 1", type: "image" },
-  { name: "PDF 1", type: "pdf" },
-  { name: "Video 1", type: "video" },
-  { name: "Document 2", type: "doc" },
-  { name: "Spreadsheet 2", type: "sheet" },
-  { name: "Presentation 2", type: "slide" },
-  { name: "Image 2", type: "image" },
-  { name: "PDF 2", type: "pdf" },
-  { name: "Video 2", type: "video" },
-];
+export const useFiles = () => {
+  const [files, setFiles] = useState([]);
+
+  useEffect(() => {
+    const fetchFiles = async () => {
+      try {
+        const accessToken = getCookies().accessToken;
+        console.log("Access Token:", accessToken);
+
+        const response = await axios.get(
+          `${config.NETWORK_CONFIG.API_BASE_URL}/action/list-me`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setFiles(response.data);
+      } catch (error) {
+        console.error("Error fetching files:", error);
+      }
+    };
+
+    fetchFiles();
+  }, []);
+
+  return files;
+};
 
 export function getFileIcon(type: string) {
   switch (type) {

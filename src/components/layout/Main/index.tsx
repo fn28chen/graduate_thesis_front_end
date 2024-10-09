@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/Button/button";
 import { Grid, List } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { files, getFileIcon, getFileIconColor } from "@/utils/common";
+import { useFiles, getFileIcon, getFileIconColor } from "@/utils/common";
 
 export default function Main() {
   const [view, setView] = React.useState<"grid" | "list">("grid");
@@ -37,21 +37,21 @@ export default function Main() {
               : "grid-cols-1"
           } gap-6`}
         >
-          {files.map((file, index) => (
+          {useFiles().map((file, index) => (
             <div
               key={index}
               className={`p-6 rounded-lg shadow-md border ${
                 view === "list" ? "flex items-center" : ""
               }`}
             >
-              <div
+              file
+              {/* <div
                 className={`${getFileIconColor(file.type)} rounded-lg p-4 ${
                   view === "list" ? "mr-6" : "mb-4"
                 }`}
               >
-                {getFileIcon(file.type)}
-              </div>
-              <p className="text-lg font-medium truncate">{file.name}</p>
+              </div> */}
+              <p className="text-lg font-medium truncate"></p>
             </div>
           ))}
         </div>
