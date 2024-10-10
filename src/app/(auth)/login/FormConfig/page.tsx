@@ -28,7 +28,7 @@ export default function Login() {
   const { toast } = useToast();
 
   // 0. Check pathname
-  console.log("Pathname: ", pathname);
+  // console.log("Pathname: ", pathname);
   const formSchema = loginSchema;
 
   // 1. Define your form.
@@ -51,7 +51,7 @@ export default function Login() {
 
       if (response.status === 201) {
         const data = response.data;
-        console.log("Login successful", data);
+        // console.log("Login successful", data);
 
         // Store part of user data in localStorage
         const { accessToken, refreshToken, ...userData } = data;
@@ -63,7 +63,7 @@ export default function Login() {
 
         // Update user context
         setUser(data);
-        console.log(user);
+        // console.log(user);
 
         toast({
           title: "Login successfully!",
