@@ -51,11 +51,13 @@ export default function Sidebar() {
     try {
       // 1. Create a FormData object to handle file uploads
       console.log("Upload file:", uploadFile);
+      const formData = new FormData();
+      formData.append("file", uploadFile);
 
       // 2. Send request to upload file
       const response = await axios.post(
         "http://localhost:8080/api/v1/action/upload",
-        uploadFile,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
