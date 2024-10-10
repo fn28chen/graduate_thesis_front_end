@@ -13,9 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserContext } from "@/context/user-context";
 export default function NavBar() {
-  const { user, setUser } = useContext(UserContext);
   return (
     <header className="border-b p-6 flex items-center justify-between">
       <div className="flex items-center w-full max-w-2xl">

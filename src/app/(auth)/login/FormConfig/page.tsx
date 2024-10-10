@@ -15,28 +15,44 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/user-context";
 import { useToast } from "@/hooks/use-toast";
 import { loginSchema } from "@/components/ui/FormConfig/Schema";
-import { getCookie, setCookie } from 'typescript-cookie'
+import { getCookies, setCookie } from 'typescript-cookie'
 
 export default function Login() {
   const { user, setUser } = useContext(UserContext);
+  const [loggedIn, setLoggedIn] = useState(false);
   const router = useRouter();
-  const pathname = usePathname();
   const { toast } = useToast();
 
   // 0. Check pathname
   // console.log("Pathname: ", pathname);
   const formSchema = loginSchema;
 
-  // 1. Define your form.
+  // 1. Check access token and refresh token in cookies expired or not. If expired, redirect to login page.
+  // 2. Check user information in local storage and access token, refresh token in cookies. If local storage has user and cookies have access token and refresh token, then user is already logged in; otherwise, redirect to login page.
+  useEffect(() => {
+    const accessToken = getCookies().accessToken;
+    const refreshToken = getCookies().refreshToken;
+    setUser(JSON.parse(localStorage.getItem("user") || "{}"));
+    // console.log("Access Token:", accessToken);
+    // console.log("Refresh Token:", refreshToken);
+    // console.log(user);
+
+    if (user && accessToken && refreshToken) {
+      router.push("/");
+    }
+
+  }, [router, setUser]);
+
+  // 3. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  // 2. Define a submit handler.
+  // 4. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await axios.post(
@@ -58,11 +74,12 @@ export default function Login() {
         localStorage.setItem("user", JSON.stringify(userData));
 
         // Store accessToken and refreshToken in cookies
+        // Set cookies to expire in 1 day
         setCookie("accessToken", accessToken, { expires: 1 });
         setCookie("refreshToken", refreshToken, { expires: 1 });
 
         // Update user context
-        setUser(data);
+        setUser(data.user);
         // console.log(user);
 
         toast({
