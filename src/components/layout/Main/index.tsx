@@ -37,21 +37,14 @@ export default function Main() {
               : "grid-cols-1"
           } gap-6`}
         >
-          {useFiles().map((file, index) => (
+          {useFiles().map((file: { Key: string }, index) => (
             <div
               key={index}
               className={`p-6 rounded-lg shadow-md border ${
                 view === "list" ? "flex items-center" : ""
               }`}
             >
-              file
-              {/* <div
-                className={`${getFileIconColor(file.type)} rounded-lg p-4 ${
-                  view === "list" ? "mr-6" : "mb-4"
-                }`}
-              >
-              </div> */}
-              <p className="text-lg font-medium truncate"></p>
+              <p className="text-lg font-medium truncate">{file.Key}</p>
             </div>
           ))}
         </div>

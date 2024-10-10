@@ -53,7 +53,7 @@ export const useFiles = () => {
     const fetchFiles = async () => {
       try {
         const accessToken = getCookies().accessToken;
-        console.log("Access Token:", accessToken);
+        // console.log("Access Token:", accessToken);
 
         const response = await axios.get(
           `${config.NETWORK_CONFIG.API_BASE_URL}/action/list-me`,

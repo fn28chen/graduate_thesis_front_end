@@ -24,9 +24,9 @@ export default function Register() {
   const router = useRouter();
 
   // 0. Check pathname
-  console.log(pathname);
+  // console.log(pathname);
   const formSchema = registerSchema;
-  console.log("Pathname: ", pathname);
+  // console.log("Pathname: ", pathname);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -70,7 +70,7 @@ export default function Register() {
     } catch (error) {
       console.error("An error occurred:", error);
     }
-    console.log(userData);
+    // console.log(userData);
   };
 
   const isLoading = form.formState.isSubmitting;
