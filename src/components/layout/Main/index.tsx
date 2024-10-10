@@ -3,10 +3,13 @@ import React from "react";
 import { Button } from "@/components/ui/Button/button";
 import { Grid, List } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { useFiles, getFileIcon, getFileIconColor } from "@/utils/common";
+import { getFileIcon, getFileIconColor } from "@/utils/common";
+import { useFiles } from "@/hooks/use-files";
+import { PreviewCard } from "@/components/ui/PreviewCard/preview-card";
 
 export default function Main() {
   const [view, setView] = React.useState<"grid" | "list">("grid");
+  const files = useFiles();
 
   return (
     <main className="flex-1 overflow-auto p-8">
@@ -33,20 +36,25 @@ export default function Main() {
         <div
           className={`grid ${
             view === "grid"
-              ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8"
+              ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
               : "grid-cols-1"
           } gap-6`}
         >
-          {useFiles().map((file: { Key: string }, index) => (
-            <div
-              key={index}
-              className={`p-6 rounded-lg shadow-md border ${
-                view === "list" ? "flex items-center" : ""
-              }`}
-            >
-              <p className="text-lg font-medium truncate">{file.Key}</p>
-            </div>
-          ))}
+          {files.map((file: { Key: string }, index: number) => {
+            const fileName = file.Key.split("/").pop();
+            const extensionFilename = fileName ? fileName.split(".").pop() : "";
+            const fileType = extensionFilename?.toLowerCase() || "";
+            console.log(getFileIconColor(fileType));
+            return (
+              <PreviewCard
+                key={index}
+                author="Shad"
+                title={fileName || ""}
+                icon={getFileIcon(fileType)}
+                color={getFileIconColor(fileType)}
+              />
+            );
+          })}
         </div>
       </ScrollArea>
     </main>

@@ -33,19 +33,19 @@ export default function Login() {
 
   // 1. Check access token and refresh token in cookies expired or not. If expired, redirect to login page.
   // 2. Check user information in local storage and access token, refresh token in cookies. If local storage has user and cookies have access token and refresh token, then user is already logged in; otherwise, redirect to login page.
-  useEffect(() => {
-    const accessToken = getCookies().accessToken;
-    const refreshToken = getCookies().refreshToken;
-    setUser(JSON.parse(localStorage.getItem("user") || "{}"));
-    // console.log("Access Token:", accessToken);
-    // console.log("Refresh Token:", refreshToken);
-    // console.log(user);
+  // useEffect(() => {
+  //   const accessToken = getCookies().accessToken;
+  //   const refreshToken = getCookies().refreshToken;
+  //   setUser(JSON.parse(localStorage.getItem("user") || "{}"));
+  //   // console.log("Access Token:", accessToken);
+  //   // console.log("Refresh Token:", refreshToken);
+  //   // console.log(user);
 
-    if (user && accessToken && refreshToken) {
-      router.push("/");
-    }
+  //   if (user && accessToken && refreshToken) {
+  //     router.push("/");
+  //   }
 
-  }, [router, setUser]);
+  // }, [router, setUser]);
 
   // 3. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({

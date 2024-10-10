@@ -13,24 +13,70 @@ import {
   AlertCircle,
   Trash2,
   Database,
+  FileText,
+  FileSpreadsheet,
+  FileImage,
+  FileVideo,
+  File,
+  FilePieChartIcon,
 } from "lucide-react";
+import { IconFileTypePdf } from "@tabler/icons-react";
 
-export function getFileIconColor(type: string) {
-  switch (type) {
+export function getFileIconColor(extension: string) {
+  switch (extension) {
     case "doc":
-      return "bg-blue-100 text-blue-600";
-    case "sheet":
-      return "bg-green-100 text-green-600";
-    case "slide":
-      return "bg-yellow-100 text-yellow-600";
-    case "image":
-      return "bg-purple-100 text-purple-600";
+    case "docx":
+      return "text-blue-600";
+    case "xls":
+    case "xlsx":
+      return "text-green-600";
+    case "ppt":
+    case "pptx":
+      return "text-yellow-600";
+    case "jpg":
+    case "jpeg":
+    case "png":
+    case "gif":
+    case "bmp":
+      return "text-purple-600";
     case "pdf":
-      return "bg-red-100 text-red-600";
-    case "video":
-      return "bg-pink-100 text-pink-600";
+      return "text-red-600";
+    case "mp4":
+    case "avi":
+    case "mov":
+    case "wmv":
+      return "text-pink-600";
     default:
-      return "bg-gray-100 text-gray-600";
+      return "text-gray-600";
+  }
+}
+
+export function getFileIcon(extension: string) {
+  switch (extension) {
+    case "doc":
+    case "docx":
+      return <FileText className="h-8 w-8" />;
+    case "xls":
+    case "xlsx":
+      return <FileSpreadsheet className="h-8 w-8" />;
+    case "ppt":
+    case "pptx":
+      return <FilePieChartIcon className="h-8 w-8" />;
+    case "jpg":
+    case "jpeg":
+    case "png":
+    case "gif":
+    case "bmp":
+      return <FileImage className="h-8 w-8" />;
+    case "pdf":
+      return <IconFileTypePdf className="h-8 w-8" />;
+    case "mp4":
+    case "avi":
+    case "mov":
+    case "wmv":
+      return <FileVideo className="h-8 w-8" />;
+    default:
+      return <File className="h-8 w-8" />;
   }
 }
 
@@ -45,51 +91,3 @@ export const sidebarItems = [
   { icon: Trash2, label: "Trash" },
   { icon: Database, label: "Storage" },
 ];
-
-export const useFiles = () => {
-  const [files, setFiles] = useState([]);
-
-  useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        const accessToken = getCookies().accessToken;
-        // console.log("Access Token:", accessToken);
-
-        const response = await axios.get(
-          `${config.NETWORK_CONFIG.API_BASE_URL}/action/list-me`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        setFiles(response.data);
-      } catch (error) {
-        console.error("Error fetching files:", error);
-      }
-    };
-
-    fetchFiles();
-  }, []);
-
-  return files;
-};
-
-export function getFileIcon(type: string) {
-  switch (type) {
-    case "doc":
-      return <ChevronRight className="h-8 w-8" />;
-    case "sheet":
-      return <ChevronRight className="h-8 w-8" />;
-    case "slide":
-      return <ChevronRight className="h-8 w-8" />;
-    case "image":
-      return <ChevronRight className="h-8 w-8" />;
-    case "pdf":
-      return <ChevronRight className="h-8 w-8" />;
-    case "video":
-      return <ChevronRight className="h-8 w-8" />;
-    default:
-      return <ChevronRight className="h-8 w-8" />;
-  }
-}
