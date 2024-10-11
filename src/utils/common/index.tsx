@@ -1,10 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import config from "@/config";
-import { getCookies } from "typescript-cookie";
-
 import {
-  ChevronRight,
   Home,
   HardDrive,
   Users,
@@ -13,70 +7,75 @@ import {
   AlertCircle,
   Trash2,
   Database,
-  FileText,
-  FileSpreadsheet,
-  FileImage,
-  FileVideo,
-  File,
-  FilePieChartIcon,
 } from "lucide-react";
 import { IconFileTypePdf } from "@tabler/icons-react";
+
+import ICDoc from "@/components/icon/IconFolder/ICDoc";
+import ICSheet from "@/components/icon/IconFolder/ICSheet";
+import ICImage from "@/components/icon/IconFolder/ICImage";
+import ICPDF from "@/components/icon/IconFolder/ICPDF";
+import IconPresentation from "@/components/icon/IconFolder/ICPresentation";
+import ICVideo from "@/components/icon/IconFolder/ICVideo";
+import ICFile from "@/components/icon/IconFolder/ICFile";
 
 export function getFileIconColor(extension: string) {
   switch (extension) {
     case "doc":
     case "docx":
-      return "text-blue-600";
+      return "text-blue-400";
     case "xls":
     case "xlsx":
-      return "text-green-600";
+      return "text-green-400";
     case "ppt":
     case "pptx":
-      return "text-yellow-600";
+      return `text-yellow-400`;
     case "jpg":
     case "jpeg":
     case "png":
     case "gif":
     case "bmp":
-      return "text-purple-600";
+      return `text-purple-400`;
     case "pdf":
-      return "text-red-600";
+      return "text-red-400";
     case "mp4":
     case "avi":
     case "mov":
     case "wmv":
-      return "text-pink-600";
+      return "text-pink-400";
     default:
-      return "text-gray-600";
+      return "text-gray-400";
   }
 }
 
 export function getFileIcon(extension: string) {
+  const iconColor = getFileIconColor(extension);
+  console.log(iconColor);
+  const className = `${iconColor}`; // 20px is equivalent to 5 in Tailwind CSS
   switch (extension) {
     case "doc":
     case "docx":
-      return <FileText className="h-8 w-8" />;
+      return <ICDoc width={20} height={20} className={className} />;
     case "xls":
     case "xlsx":
-      return <FileSpreadsheet className="h-8 w-8" />;
+      return <ICSheet width={20} height={20} className={className} />;
     case "ppt":
     case "pptx":
-      return <FilePieChartIcon className="h-8 w-8" />;
+      return <IconPresentation width={20} height={20} className={className} />;
     case "jpg":
     case "jpeg":
     case "png":
     case "gif":
     case "bmp":
-      return <FileImage className="h-8 w-8" />;
+      return <ICImage width={20} height={20} className={className} />;
     case "pdf":
-      return <IconFileTypePdf className="h-8 w-8" />;
+      return <ICPDF width={20} height={20} className={className} />;
     case "mp4":
     case "avi":
     case "mov":
     case "wmv":
-      return <FileVideo className="h-8 w-8" />;
+      return <ICVideo width={20} height={20} className={className} />;
     default:
-      return <File className="h-8 w-8" />;
+      return <ICFile width={20} height={20} className={className} />;
   }
 }
 

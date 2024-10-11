@@ -36,22 +36,22 @@ export default function Main() {
         <div
           className={`grid ${
             view === "grid"
-              ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+              ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
               : "grid-cols-1"
           } gap-6`}
         >
-          {files.map((file: { Key: string }, index: number) => {
+          {files.files.map((file: { Key: string }, index: number) => {
             const fileName = file.Key.split("/").pop();
             const extensionFilename = fileName ? fileName.split(".").pop() : "";
             const fileType = extensionFilename?.toLowerCase() || "";
-            console.log(getFileIconColor(fileType));
+            console.log("File type " + index, fileType);
+            console.log("File Icon ", getFileIcon(fileType));
             return (
               <PreviewCard
                 key={index}
                 author="Shad"
                 title={fileName || ""}
                 icon={getFileIcon(fileType)}
-                color={getFileIconColor(fileType)}
               />
             );
           })}

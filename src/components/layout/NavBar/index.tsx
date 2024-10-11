@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 export default function NavBar() {
   const handleLogout = () => {
-    console.log("Logout");
+    // console.log("Logout");
   };
   return (
     <header className="border-b p-6 flex items-center justify-between">
