@@ -7,7 +7,7 @@ function ICPDF({ width, height, fillColor }: ISvgIcon) {
       data-testid="geist-icon"
       width={width}
       height={height}
-      stroke-linejoin="round"
+      strokeLinejoin="round"
       viewBox="0 0 16 16"
       style={{ color: "currentcolor" }}
       className={fillColor}

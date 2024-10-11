@@ -49,7 +49,7 @@ export function getFileIconColor(extension: string) {
 
 export function getFileIcon(extension: string) {
   const iconColor = getFileIconColor(extension);
-  console.log(iconColor);
+  // console.log(iconColor);
   const className = `${iconColor}`; // 20px is equivalent to 5 in Tailwind CSS
   switch (extension) {
     case "doc":
