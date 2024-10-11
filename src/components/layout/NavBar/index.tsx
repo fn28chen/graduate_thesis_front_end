@@ -14,6 +14,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 export default function NavBar() {
+  const handleLogout = () => {
+    // console.log("Logout");
+  };
   return (
     <header className="border-b p-6 flex items-center justify-between">
       <div className="flex items-center w-full max-w-2xl">
@@ -57,7 +60,7 @@ export default function NavBar() {
             <DropdownMenuItem>Subscription</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuLabel>Logout</DropdownMenuLabel>
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

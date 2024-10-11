@@ -43,3 +43,11 @@ export interface IList {
   storageClass: string;
   owner: IOwner;
 };
+
+export interface ISvgIcon {
+  width?: number;
+  height?: number;
+  fillColor?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}

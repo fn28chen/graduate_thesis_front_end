@@ -1,10 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import config from "@/config";
-import { getCookies } from "typescript-cookie";
-
 import {
-  ChevronRight,
   Home,
   HardDrive,
   Users,
@@ -14,23 +8,74 @@ import {
   Trash2,
   Database,
 } from "lucide-react";
+import { IconFileTypePdf } from "@tabler/icons-react";
 
-export function getFileIconColor(type: string) {
-  switch (type) {
+import ICDoc from "@/components/icon/IconFolder/ICDoc";
+import ICSheet from "@/components/icon/IconFolder/ICSheet";
+import ICImage from "@/components/icon/IconFolder/ICImage";
+import ICPDF from "@/components/icon/IconFolder/ICPDF";
+import IconPresentation from "@/components/icon/IconFolder/ICPresentation";
+import ICVideo from "@/components/icon/IconFolder/ICVideo";
+import ICFile from "@/components/icon/IconFolder/ICFile";
+
+export function getFileIconColor(extension: string) {
+  switch (extension) {
     case "doc":
-      return "bg-blue-100 text-blue-600";
-    case "sheet":
-      return "bg-green-100 text-green-600";
-    case "slide":
-      return "bg-yellow-100 text-yellow-600";
-    case "image":
-      return "bg-purple-100 text-purple-600";
+    case "docx":
+      return "text-blue-400";
+    case "xls":
+    case "xlsx":
+      return "text-green-400";
+    case "ppt":
+    case "pptx":
+      return `text-yellow-400`;
+    case "jpg":
+    case "jpeg":
+    case "png":
+    case "gif":
+    case "bmp":
+      return `text-purple-400`;
     case "pdf":
-      return "bg-red-100 text-red-600";
-    case "video":
-      return "bg-pink-100 text-pink-600";
+      return "text-red-400";
+    case "mp4":
+    case "avi":
+    case "mov":
+    case "wmv":
+      return "text-pink-400";
     default:
-      return "bg-gray-100 text-gray-600";
+      return "text-gray-400";
+  }
+}
+
+export function getFileIcon(extension: string) {
+  const iconColor = getFileIconColor(extension);
+  // console.log(iconColor);
+  const className = `${iconColor}`; // 20px is equivalent to 5 in Tailwind CSS
+  switch (extension) {
+    case "doc":
+    case "docx":
+      return <ICDoc width={20} height={20} className={className} />;
+    case "xls":
+    case "xlsx":
+      return <ICSheet width={20} height={20} className={className} />;
+    case "ppt":
+    case "pptx":
+      return <IconPresentation width={20} height={20} className={className} />;
+    case "jpg":
+    case "jpeg":
+    case "png":
+    case "gif":
+    case "bmp":
+      return <ICImage width={20} height={20} className={className} />;
+    case "pdf":
+      return <ICPDF width={20} height={20} className={className} />;
+    case "mp4":
+    case "avi":
+    case "mov":
+    case "wmv":
+      return <ICVideo width={20} height={20} className={className} />;
+    default:
+      return <ICFile width={20} height={20} className={className} />;
   }
 }
 
@@ -45,51 +90,3 @@ export const sidebarItems = [
   { icon: Trash2, label: "Trash" },
   { icon: Database, label: "Storage" },
 ];
-
-export const useFiles = () => {
-  const [files, setFiles] = useState([]);
-
-  useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        const accessToken = getCookies().accessToken;
-        // console.log("Access Token:", accessToken);
-
-        const response = await axios.get(
-          `${config.NETWORK_CONFIG.API_BASE_URL}/action/list-me`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        setFiles(response.data);
-      } catch (error) {
-        console.error("Error fetching files:", error);
-      }
-    };
-
-    fetchFiles();
-  }, []);
-
-  return files;
-};
-
-export function getFileIcon(type: string) {
-  switch (type) {
-    case "doc":
-      return <ChevronRight className="h-8 w-8" />;
-    case "sheet":
-      return <ChevronRight className="h-8 w-8" />;
-    case "slide":
-      return <ChevronRight className="h-8 w-8" />;
-    case "image":
-      return <ChevronRight className="h-8 w-8" />;
-    case "pdf":
-      return <ChevronRight className="h-8 w-8" />;
-    case "video":
-      return <ChevronRight className="h-8 w-8" />;
-    default:
-      return <ChevronRight className="h-8 w-8" />;
-  }
-}
