@@ -42,6 +42,7 @@ export default function Main() {
         >
           {files.files.map((file: { Key: string }, index: number) => {
             const fileName = file.Key.split("/").pop();
+            const truncatedFileName = fileName && fileName.length > 12 ? fileName.slice(0, 12) + "..." : fileName || "";
             const extensionFilename = fileName ? fileName.split(".").pop() : "";
             const fileType = extensionFilename?.toLowerCase() || "";
             console.log("File type " + index, fileType);
@@ -50,7 +51,7 @@ export default function Main() {
               <PreviewCard
                 key={index}
                 author="Shad"
-                title={fileName || ""}
+                title={truncatedFileName || ""}
                 icon={getFileIcon(fileType)}
               />
             );
