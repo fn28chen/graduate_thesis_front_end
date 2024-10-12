@@ -33,19 +33,19 @@ export default function Login() {
 
   // 1. Check access token and refresh token in cookies expired or not. If expired, redirect to login page.
   // 2. Check user information in local storage and access token, refresh token in cookies. If local storage has user and cookies have access token and refresh token, then user is already logged in; otherwise, redirect to login page.
-  // useEffect(() => {
-  //   const accessToken = getCookies().accessToken;
-  //   const refreshToken = getCookies().refreshToken;
-  //   setUser(JSON.parse(localStorage.getItem("user") || "{}"));
-  //   // console.log("Access Token:", accessToken);
-  //   // console.log("Refresh Token:", refreshToken);
-  //   // console.log(user);
+  useEffect(() => {
+    const accessToken = getCookies().accessToken;
+    const refreshToken = getCookies().refreshToken;
+    setUser(JSON.parse(localStorage.getItem("user") || "{}"));
+    // console.log("Access Token:", accessToken);
+    // console.log("Refresh Token:", refreshToken);
+    // console.log(user);
 
-  //   if (user && accessToken && refreshToken) {
-  //     router.push("/");
-  //   }
+    if (user && accessToken && refreshToken) {
+      router.push("/");
+    }
 
-  // }, [router, setUser]);
+  }, [router, setUser]);
 
   // 3. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -78,6 +78,8 @@ export default function Login() {
         setCookie("accessToken", accessToken, { expires: 1 });
         setCookie("refreshToken", refreshToken, { expires: 1 });
 
+        // Update isLoggedIn state
+        setLoggedIn(true);
         // Update user context
         setUser(data.user);
         // console.log(user);
@@ -87,6 +89,8 @@ export default function Login() {
           description: "You're login successfully!",
           duration: 1000,
         });
+
+        router.push("/");
       } else {
         console.error("Login failed", response.data);
 
@@ -105,10 +109,6 @@ export default function Login() {
       });
     }
   }
-
-  const handleSubmit = () => {
-    router.push("/");
-  };
 
   return (
     <section className="">
@@ -149,7 +149,7 @@ export default function Login() {
             )}
           />
           <div className="flex flex-col gap-4">
-            <Button type="submit" onClick={handleSubmit}>
+            <Button type="submit">
               Submit
             </Button>
           </div>

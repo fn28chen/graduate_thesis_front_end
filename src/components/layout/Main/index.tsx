@@ -3,15 +3,13 @@ import React, { useRef } from "react";
 import { Button } from "@/components/ui/Button/button";
 import { Grid, List } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { getFileIcon, getFileIconColor } from "@/utils/common";
+import { getFileIcon } from "@/utils/common";
 import { useFiles } from "@/hooks/use-files";
 import { PreviewCard } from "@/components/ui/PreviewCard/preview-card";
-import { ContextMenu } from "@/context/menu-context";
 
 export default function Main() {
   const [view, setView] = React.useState<"grid" | "list">("grid");
   const files = useFiles();
-  const outerRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <main className="flex-1 overflow-auto p-8">
@@ -41,7 +39,6 @@ export default function Main() {
               ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
               : "grid-cols-1"
           } gap-6`}
-          ref={outerRef}
         >
           {files.files.map((file: { Key: string }, index: number) => {
             const fileName = file.Key.split("/").pop();
@@ -52,15 +49,12 @@ export default function Main() {
             const extensionFilename = fileName ? fileName.split(".").pop() : "";
             const fileType = extensionFilename?.toLowerCase() || "";
             return (
-              <div>
-                <ContextMenu outerRef={outerRef} />
-                <PreviewCard
-                  key={index}
-                  author="Shad"
-                  title={truncatedFileName || ""}
-                  icon={getFileIcon(fileType)}
-                />
-              </div>
+              <PreviewCard
+                key={index}
+                author="Shad"
+                title={truncatedFileName || ""}
+                icon={getFileIcon(fileType)}
+              />
             );
           })}
         </div>
