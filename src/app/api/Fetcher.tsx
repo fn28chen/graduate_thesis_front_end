@@ -1,65 +1,45 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import Config from "@/config";
-import ListErrorMessage from "@/app/api/ErrorMessage/ListErrorMessage";
+import { getCookies } from "typescript-cookie";
 
-export interface IDataError {
-  errorCode: string;
-  errorMessage?: string;
-}
-
-export interface IMetadata {
-  time?: string;
-  total?: number;
-}
-
-export interface IDataWithMeta<T> {
-  meta: IMetadata;
-  data: T;
-}
-
-export interface IResponseDTO<T> {
-  success: boolean;
-  errorCode: string;
-  message?: string;
-  meta?: IMetadata;
-  data?: T;
-}
-
-interface IResponseWithMetadataDTO<T> {
-  success: boolean;
-  errorCode: string;
-  message?: string;
-  meta: IMetadata;
-  data?: T;
-}
-
-interface IFetcherOptions {
-  token?: string;
-  withToken?: boolean;
-  withMetadata?: boolean;
-  displayError?: boolean;
+interface IAPIRequest {
+  method: string;
+  endpoint: string;
+  data?: any;
   isFormData?: boolean;
 }
 
-function createApiClient(config: AxiosRequestConfig, options: IFetcherOptions) {
-  const defaultOptions: IFetcherOptions = {
-    withToken: Config.NETWORK_CONFIG.USE_TOKEN,
-    withMetadata: Config.NETWORK_CONFIG.WITH_METADATA,
-    displayError: Config.NETWORK_CONFIG.DISPLAY_ERROR,
-    ...options,
+const apiRequest = async ({
+  method,
+  endpoint,
+  data,
+  isFormData,
+}: IAPIRequest): Promise<any> => {
+  const url = `${Config.NETWORK_CONFIG.API_BASE_URL}${endpoint}`;
+  const headers: AxiosRequestConfig["headers"] = {
+    "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+  };
+  const accessToken = getCookies().accessToken;
+  if (accessToken) {
+    headers.Authorization = `Bearer ${accessToken}`;
+  } else {
+    console.error("Unauthorized: No access token found");
+  }
+
+  const config: AxiosRequestConfig = {
+    method,
+    url,
+    headers,
+    data,
   };
 
-  const apiClient = axios.create({
-    baseURL: Config.NETWORK_CONFIG.API_BASE_URL,
-    timeout: Config.NETWORK_CONFIG.TIMEOUT,
-    headers: {
-      "Content-Type": "application/json",
-      // "Accept-Language": language || "en",
-      Authorization: defaultOptions.withToken
-        ? `Bearer ${defaultOptions.token}`
-        : "",
-    },
-  });
+  try {
+    const response = await axios(config);
+    return response.data;
+  } catch (error) {
+    console.error("API request error:", error);
+    throw error;
+  }
+};
 
-  return { apiClient, defaultOptions };
-}
+export default apiRequest;

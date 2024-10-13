@@ -32,17 +32,19 @@ export type DefaultParams = {
 };
 
 export interface IOwner {
-  displayName: string;
+  DisplayName: string;
   id: string;
-};
+}
 
-export interface IList {
-  name: string;
-  lastModified: string;
-  size: number;
-  storageClass: string;
+export interface IListMeDataType {
+  Key: string;
+  LastModified: string;
+  ETag: string;
+  Size: number;
+  StorageClass: string;
+  url: string;
   owner: IOwner;
-};
+}
 
 export interface ISvgIcon {
   width?: number;

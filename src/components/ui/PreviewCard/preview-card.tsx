@@ -1,6 +1,8 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { useRef } from "react";
 import Image from "next/image";
+import { ContextMenu } from "@/context/menu-context";
 
 interface IPreviewCardProps {
   author: string;
@@ -8,8 +10,11 @@ interface IPreviewCardProps {
   icon: React.ReactNode;
 }
 export function PreviewCard({ author, title, icon }: IPreviewCardProps) {
+  const outerRef = useRef<HTMLDivElement | null>(null);
+  
   return (
-    <div className="max-w-xs w-full group/card">
+    <div className="max-w-xs w-full group/card" ref={outerRef}>
+      <ContextMenu outerRef={outerRef} />
       <div
         className={cn(
           " cursor-pointer overflow-hidden relative card h-[200px] rounded-md shadow-xl  max-w-sm mx-auto backgroundImage flex flex-col justify-between p-4",

@@ -16,6 +16,7 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createUploadFile } from "@/app/api/ApiList";
 
 const formSchema = z.object({
   uploadFile: z.instanceof(File, {
@@ -55,19 +56,10 @@ export default function Sidebar() {
       formData.append("file", uploadFile);
 
       // 2. Send request to upload file
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/action/upload",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await createUploadFile(formData);
       console.log("Response: ", response);
 
-      console.log("Upload successful:", response.data);
+      console.log("Upload successful:", response);
     } catch (error) {
       console.error("Upload failed:", error);
     }

@@ -8,7 +8,6 @@ import {
   Trash2,
   Database,
 } from "lucide-react";
-import { IconFileTypePdf } from "@tabler/icons-react";
 
 import ICDoc from "@/components/icon/IconFolder/ICDoc";
 import ICSheet from "@/components/icon/IconFolder/ICSheet";
@@ -17,6 +16,8 @@ import ICPDF from "@/components/icon/IconFolder/ICPDF";
 import IconPresentation from "@/components/icon/IconFolder/ICPresentation";
 import ICVideo from "@/components/icon/IconFolder/ICVideo";
 import ICFile from "@/components/icon/IconFolder/ICFile";
+import { z } from "zod";
+
 
 export function getFileIconColor(extension: string) {
   switch (extension) {
