@@ -1,5 +1,4 @@
 import {
-  Home,
   HardDrive,
   Users,
   Clock,
@@ -7,6 +6,7 @@ import {
   AlertCircle,
   Trash2,
   Database,
+  Home,
 } from "lucide-react";
 
 import ICDoc from "@/components/icon/IconFolder/ICDoc";
@@ -16,8 +16,6 @@ import ICPDF from "@/components/icon/IconFolder/ICPDF";
 import IconPresentation from "@/components/icon/IconFolder/ICPresentation";
 import ICVideo from "@/components/icon/IconFolder/ICVideo";
 import ICFile from "@/components/icon/IconFolder/ICFile";
-import { z } from "zod";
-
 
 export function getFileIconColor(extension: string) {
   switch (extension) {
@@ -50,8 +48,7 @@ export function getFileIconColor(extension: string) {
 
 export function getFileIcon(extension: string) {
   const iconColor = getFileIconColor(extension);
-  // console.log(iconColor);
-  const className = `${iconColor}`; // 20px is equivalent to 5 in Tailwind CSS
+  const className = `${iconColor}`;
   switch (extension) {
     case "doc":
     case "docx":
@@ -67,7 +64,7 @@ export function getFileIcon(extension: string) {
     case "png":
     case "gif":
     case "bmp":
-      return <ICImage width={20} height={20} className={className} />;
+      return <ICImage width={28} height={28} className={className} />;
     case "pdf":
       return <ICPDF width={20} height={20} className={className} />;
     case "mp4":
