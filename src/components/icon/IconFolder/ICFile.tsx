@@ -4,19 +4,13 @@ import { ISvgIcon } from "@/types";
 function ICFile({ width, height }: ISvgIcon) {
   return (
     <svg
-      data-testid="geist-icon"
-      width={width}
-      height={height}
-      strokeLinejoin="round"
-      viewBox="0 0 16 16"
-      className="text-neutral-400"
+      xmlns="http://www.w3.org/2000/svg"
+      height="24px"
+      viewBox="0 -960 960 960"
+      width="24px"
+      fill="#FFFFFF"
     >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M14.5 6.5V13.5C14.5 14.8807 13.3807 16 12 16H4C2.61929 16 1.5 14.8807 1.5 13.5V1.5V0H3H8H9.08579C9.351 0 9.60536 0.105357 9.79289 0.292893L14.2071 4.70711C14.3946 4.89464 14.5 5.149 14.5 5.41421V6.5ZM13 6.5V13.5C13 14.0523 12.5523 14.5 12 14.5H4C3.44772 14.5 3 14.0523 3 13.5V1.5H8V5V6.5H9.5H13ZM9.5 2.12132V5H12.3787L9.5 2.12132Z"
-        fill="currentColor"
-      ></path>
+      <path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h287q16 0 30.5 6t25.5 17l194 194q11 11 17 25.5t6 30.5v447q0 33-23.5 56.5T720-80H240Zm280-560q0 17 11.5 28.5T560-600h160L520-800v160Z" />
     </svg>
   );
 }
