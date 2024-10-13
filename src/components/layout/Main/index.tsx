@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/Button/button";
 import { Grid, List } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { getFileIcon } from "@/utils/common";
-import { useFiles } from "@/hooks/use-files";
+import { getFiles } from "@/hooks/use-files";
 import { PreviewCard } from "@/components/ui/PreviewCard/preview-card";
 
 export default function Main() {
   const [view, setView] = React.useState<"grid" | "list">("grid");
-  const files = useFiles();
+  const files = getFiles();
 
   return (
     <main className="flex-1 overflow-auto p-8">

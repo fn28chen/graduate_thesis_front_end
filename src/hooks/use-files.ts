@@ -1,12 +1,8 @@
-import config from "@/config";
-import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
-import { getCookies } from "typescript-cookie";
 import { IListMeDataType } from "@/types";
-import apiRequest from "@/app/api/Fetcher";
-import { getListMe } from "@/app/api/ApiList";
+import { getListMe, createUploadFile } from "@/app/api/ApiList";
 
-export const useFiles = () => {
+export const getFiles = () => {
   const [files, setFiles] = useState<IListMeDataType[]>([]);
   const [loading, setLoading] = useState(false);
 

@@ -41,3 +41,10 @@ export const loginSchema = z.object({
     message: "Password must be at least 8 characters.",
   }),
 });
+
+
+export const formSchema = z.object({
+  uploadFile: z.instanceof(File, {
+    message: "Please upload a file",
+  }),
+});
