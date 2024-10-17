@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import SearchFile from "@/components/ui/Search/search";
 export default function NavBar() {
   const handleLogout = () => {
     // console.log("Logout");
@@ -20,14 +21,7 @@ export default function NavBar() {
   return (
     <header className="border-b p-6 flex items-center justify-between">
       <div className="flex items-center w-full max-w-2xl">
-        <Input
-          type="text"
-          placeholder="Search in Drive"
-          className="mr-4 text-lg"
-        />
-        <Button size="icon" variant="ghost" className="h-12 w-12 rounded-full">
-          <Search className="h-6 w-6" />
-        </Button>
+        <SearchFile />
       </div>
       <div className="flex items-center space-x-4">
         <Button size="icon" variant="ghost" className="h-12 w-12 rounded-full">
