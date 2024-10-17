@@ -9,6 +9,16 @@ interface IAPIRequest {
   isFormData?: boolean;
 }
 
+const getAuthentication = () => {
+  const accessToken = getCookies().accessToken;
+  if (accessToken) {
+    return `Bearer ${accessToken}`;
+  } else {
+    console.error("Unauthorized: No access token found");
+    return "";
+  }
+}
+
 const apiRequest = async ({
   method,
   endpoint,
@@ -19,6 +29,7 @@ const apiRequest = async ({
   const headers: AxiosRequestConfig["headers"] = {
     "Content-Type": isFormData ? "multipart/form-data" : "application/json",
   };
+  
   const accessToken = getCookies().accessToken;
   if (accessToken) {
     headers.Authorization = `Bearer ${accessToken}`;
