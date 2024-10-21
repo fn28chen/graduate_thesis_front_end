@@ -30,11 +30,9 @@ const apiRequest = async ({
     "Content-Type": isFormData ? "multipart/form-data" : "application/json",
   };
   
-  const accessToken = getCookies().accessToken;
-  if (accessToken) {
-    headers.Authorization = `Bearer ${accessToken}`;
-  } else {
-    console.error("Unauthorized: No access token found");
+  const authHeader = getAuthentication();
+  if (authHeader) {
+    headers.Authorization = authHeader;
   }
 
   const config: AxiosRequestConfig = {

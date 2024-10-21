@@ -10,7 +10,7 @@ import { PreviewCard } from "@/components/ui/PreviewCard/preview-card";
 export default function Main() {
   const [view, setView] = React.useState<"grid" | "list">("grid");
   const files = getFiles();
-  console.log(files);
+  // console.log(files);
 
   return (
     <main className="flex-1 overflow-auto p-8">

@@ -1,6 +1,7 @@
 "use client";
 import React, { useContext, useState } from "react";
 import { Input } from "@/components/ui/Input/input";
+import { logout } from "@/app/api/ApiUser";
 import { Button } from "@/components/ui/Button/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { HelpCircle, Menu, Search, Settings, User } from "lucide-react";
@@ -14,9 +15,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import SearchFile from "@/components/ui/Search/search";
+import { useRouter } from "next/navigation";
+import Config from "@/config";
+
 export default function NavBar() {
+  const router = useRouter();
   const handleLogout = () => {
-    // console.log("Logout");
+    logout();
+    router.push(Config.PATHNAME.LOGIN);
   };
   return (
     <header className="border-b p-6 flex items-center justify-between">
