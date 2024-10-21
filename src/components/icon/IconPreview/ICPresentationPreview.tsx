@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ISvgIcon } from "@/types";
 
-function IconPresentation({ width, height, fillColor }: ISvgIcon) {
+function IconPresentationPreview({ width, height, fillColor }: ISvgIcon) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,4 +15,4 @@ function IconPresentation({ width, height, fillColor }: ISvgIcon) {
   );
 }
 
-export default IconPresentation;
+export default IconPresentationPreview;

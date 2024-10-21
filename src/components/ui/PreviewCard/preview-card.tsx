@@ -1,7 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { useRef } from "react";
-import Image from "next/image";
 import { ContextMenu } from "@/context/menu-context";
 import { Avatar, AvatarFallback } from "../avatar";
 
@@ -9,12 +8,14 @@ interface IPreviewCardProps {
   author: string;
   title: string;
   icon: React.ReactNode;
+  iconPreview: React.ReactNode;
   last_modified: string;
 }
 export function PreviewCard({
   author,
   title,
   icon,
+  iconPreview,
   last_modified,
 }: IPreviewCardProps) {
   const outerRef = useRef<HTMLDivElement | null>(null);
@@ -35,7 +36,7 @@ export function PreviewCard({
           </div>
         </div>
         <div className="flex justify-center items-center mt-4" style={{ fontSize: '44px' }}>
-          {icon}
+          {iconPreview}
         </div>
         <div className="flex flex-row gap-4">
           <Avatar className="w-8 h-8">

@@ -16,6 +16,13 @@ import ICPDF from "@/components/icon/IconFolder/ICPDF";
 import IconPresentation from "@/components/icon/IconFolder/ICPresentation";
 import ICVideo from "@/components/icon/IconFolder/ICVideo";
 import ICFile from "@/components/icon/IconFolder/ICFile";
+import ICDocPreview from "@/components/icon/IconPreview/ICDocPreview";
+import ICSheetPreview from "@/components/icon/IconPreview/ICSheetPreview";
+import IconPresentationPreview from "@/components/icon/IconPreview/ICPresentationPreview";
+import ICFilePreview from "@/components/icon/IconPreview/ICFilePreview";
+import ICVideoPreview from "@/components/icon/IconPreview/ICVideoPreview";
+import ICPDFPreview from "@/components/icon/IconPreview/ICPDFPreview";
+import ICImagePreview from "@/components/icon/IconPreview/ICImagePreview";
 
 export function getFileIconColor(extension: string) {
   switch (extension) {
@@ -74,6 +81,35 @@ export function getFileIcon(extension: string) {
       return <ICVideo width={20} height={20} className={className} />;
     default:
       return <ICFile width={20} height={20} className={className} />;
+  }
+}
+
+export function getFileIconPreview(extension: string) {
+  switch (extension) {
+    case "doc":
+    case "docx":
+      return <ICDocPreview width={20} height={20} />;
+    case "xls":
+    case "xlsx":
+      return <ICSheetPreview width={20} height={20} />;
+    case "ppt":
+    case "pptx":
+      return <IconPresentationPreview width={20} height={20} />;
+    case "jpg":
+    case "jpeg":
+    case "png":
+    case "gif":
+    case "bmp":
+      return <ICImagePreview width={28} height={28} />;
+    case "pdf":
+      return <ICPDFPreview width={20} height={20} />;
+    case "mp4":
+    case "avi":
+    case "mov":
+    case "wmv":
+      return <ICVideoPreview width={20} height={20} />;
+    default:
+      return <ICFilePreview width={20} height={20} />;
   }
 }
 

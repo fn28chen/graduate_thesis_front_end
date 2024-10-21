@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ISvgIcon } from "@/types";
 
-function ICVideo({ width, height, fillColor }: ISvgIcon) {
+function ICVideoPreview({ width, height, fillColor }: ISvgIcon) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,4 +15,4 @@ function ICVideo({ width, height, fillColor }: ISvgIcon) {
   );
 }
 
-export default ICVideo;
+export default ICVideoPreview;
