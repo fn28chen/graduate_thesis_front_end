@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button/button";
 import { Search } from "lucide-react";
-import { fetchFilesByName } from "@/hooks/use-search";
 import { useRouter } from "next/navigation";
-import { getFileByName } from "@/app/api/ApiSearch";
 
 function SearchFile() {
   const [query, setQuery] = useState("");
@@ -12,10 +10,9 @@ function SearchFile() {
 
   const handleSearch = async () => {
     try {
-      const files = await getFileByName(query);
       // Do something with the fetched files, e.g., display them or navigate to a new page
-      console.log(files);
       // Construct the new URL with the query parameter
+      if(!query) return;
       const newUrl = `/search?query=${query}`;
       // Navigate to the new URL or perform any other action
       router.push(newUrl);
