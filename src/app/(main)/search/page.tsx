@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getFileByName } from "../api/ApiSearch";
+import { getFileByName } from "../../api/ApiSearch";
 import { IListMeDataType } from "@/types";
 import { useSearchParams } from "next/navigation";
 import { fetchFilesByName } from "@/hooks/use-search";
