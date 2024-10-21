@@ -1,6 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
-import { Input } from "@/components/ui/Input/input";
+import React from "react";
 import { logout } from "@/app/api/ApiUser";
 import { Button } from "@/components/ui/Button/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

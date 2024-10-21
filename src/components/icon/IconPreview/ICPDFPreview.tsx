@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ISvgIcon } from "@/types";
 
-function ICPDF({ width, height, fillColor }: ISvgIcon) {
+function ICPDFPreview({ width, height, fillColor }: ISvgIcon) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,4 +15,4 @@ function ICPDF({ width, height, fillColor }: ISvgIcon) {
   );
 }
 
-export default ICPDF;
+export default ICPDFPreview;

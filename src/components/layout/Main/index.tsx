@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/Button/button";
 import { Grid, List } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { getFileIcon } from "@/utils/common";
+import { getFileIcon, getFileIconPreview } from "@/utils/common";
 import { getFiles } from "@/hooks/use-files";
 import { PreviewCard } from "@/components/ui/PreviewCard/preview-card";
 
@@ -68,6 +68,7 @@ export default function Main() {
                   author="Shad"
                   title={truncatedFileName || ""}
                   icon={getFileIcon(fileType)}
+                  iconPreview={getFileIconPreview(fileType)}
                   last_modified={last_modified}
                 />
               );

@@ -36,7 +36,7 @@ export default function Search() {
         <p>Loading...</p>
       ) : (
         <div>
-          <h2>Search Results</h2>
+          <h2 className="text-3xl font-semibold">Search results</h2>
           {files.length > 0 ? (
             <ul>
               {files.map((file) => (
