@@ -22,6 +22,7 @@ export default function NavBar() {
   const router = useRouter();
   const handleLogout = () => {
     logout();
+    // After logout completed, redirect to login page
     router.push(Config.PATHNAME.LOGIN);
   };
   return (

@@ -17,7 +17,7 @@ const getAuthentication = () => {
     console.error("Unauthorized: No access token found");
     return "";
   }
-}
+};
 
 const apiRequest = async ({
   method,
@@ -26,14 +26,17 @@ const apiRequest = async ({
   isFormData,
 }: IAPIRequest): Promise<any> => {
   const url = `${Config.NETWORK_CONFIG.API_BASE_URL}${endpoint}`;
+
+  // Get the authentication header
+  const authHeader = getAuthentication();
+  if (!authHeader) {
+    throw new Error("Unauthorized: Missing access token");
+  }
+
   const headers: AxiosRequestConfig["headers"] = {
     "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+    Authorization: authHeader, // Set the authorization header here
   };
-  
-  const authHeader = getAuthentication();
-  if (authHeader) {
-    headers.Authorization = authHeader;
-  }
 
   const config: AxiosRequestConfig = {
     method,

@@ -14,49 +14,54 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/user-context";
 import { useToast } from "@/hooks/use-toast";
 import { loginSchema } from "@/components/ui/FormConfig/Schema";
-import { getCookies, setCookie } from 'typescript-cookie'
+import { getCookies, setCookie } from 'typescript-cookie';
 
 export default function Login() {
   const { user, setUser } = useContext(UserContext);
-  const [loggedIn, setLoggedIn] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-
-  // 0. Check pathname
-  // console.log("Pathname: ", pathname);
   const formSchema = loginSchema;
 
-  // 1. Check access token and refresh token in cookies expired or not. If expired, redirect to login page.
-  // 2. Check user information in local storage and access token, refresh token in cookies. If local storage has user and cookies have access token and refresh token, then user is already logged in; otherwise, redirect to login page.
+  // 1. Check access token and refresh token in cookies expired or not.
   useEffect(() => {
     const accessToken = getCookies().accessToken;
     const refreshToken = getCookies().refreshToken;
-    setUser(JSON.parse(localStorage.getItem("user") || "{}"));
-    // console.log("Access Token:", accessToken);
-    // console.log("Refresh Token:", refreshToken);
-    // console.log(user);
 
-    if (user && accessToken && refreshToken) {
-      router.push("/");
+    // Check if tokens are available and not expired
+    if (accessToken && refreshToken) {
+      // Here you would need to implement a function to check token expiry
+      // For example:
+      // if (isTokenExpired(accessToken) || isTokenExpired(refreshToken)) {
+      //   router.push("/login");
+      //   return;
+      // }
+
+      // Check user info in local storage
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+        router.push("/"); // Already logged in
+      }
+    } else {
+      router.push("/login"); // Redirect to login if no tokens
     }
-
   }, [router, setUser]);
 
-  // 3. Define your form.
+  // 2. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  // 4. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  // 3. Define a submit handler.
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.post(
-        `${Config.NETWORK_CONFIG.API_BASE_URL}` + "/auth/login",
+        `${Config.NETWORK_CONFIG.API_BASE_URL}/auth/login`,
         values,
         {
           headers: {
@@ -66,37 +71,28 @@ export default function Login() {
       );
 
       if (response.status === 201) {
-        const data = response.data;
-        // console.log("Login successful", data);
+        const { accessToken, refreshToken, ...userData } = response.data;
 
-        // Store part of user data in localStorage
-        const { accessToken, refreshToken, ...userData } = data;
+        // Store user data and tokens
         localStorage.setItem("user", JSON.stringify(userData));
-
-        // Store accessToken and refreshToken in cookies
-        // Set cookies to expire in 1 day
         setCookie("accessToken", accessToken, { expires: 1 });
         setCookie("refreshToken", refreshToken, { expires: 1 });
 
-        // Update isLoggedIn state
-        setLoggedIn(true);
         // Update user context
-        setUser(data.user);
-        // console.log(user);
-
+        setUser(userData);
+        
         toast({
           title: "Login successfully!",
-          description: "You're login successfully!",
+          description: "You're logged in successfully!",
           duration: 1000,
         });
 
         router.push("/");
       } else {
         console.error("Login failed", response.data);
-
         toast({
           title: "Login failed!",
-          description: "Login failed!",
+          description: "Invalid credentials.",
           duration: 1000,
         });
       }
@@ -104,11 +100,11 @@ export default function Login() {
       console.error("An error occurred while logging in", error);
       toast({
         title: "Login failed!",
-        description: "Login failed!",
+        description: "An error occurred. Please try again.",
         duration: 1000,
       });
     }
-  }
+  };
 
   return (
     <section className="">
