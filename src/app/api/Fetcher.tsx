@@ -1,12 +1,14 @@
 import axios, { AxiosRequestConfig } from "axios";
 import Config from "@/config";
 import { getCookies } from "typescript-cookie";
+import { DefaultParams } from "@/types";
 
 interface IAPIRequest {
   method: string;
   endpoint: string;
   data?: any;
   isFormData?: boolean;
+  params?: DefaultParams;
 }
 
 const getAuthentication = () => {
@@ -19,12 +21,12 @@ const getAuthentication = () => {
   }
 };
 
-const apiRequest = async ({
+export async function apiRequest({
   method,
   endpoint,
   data,
   isFormData,
-}: IAPIRequest): Promise<any> => {
+}: IAPIRequest): Promise<any> {
   const url = `${Config.NETWORK_CONFIG.API_BASE_URL}${endpoint}`;
 
   // Get the authentication header
@@ -52,6 +54,6 @@ const apiRequest = async ({
     console.error("API request error:", error);
     throw error;
   }
-};
+}
 
 export default apiRequest;

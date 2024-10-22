@@ -17,7 +17,7 @@ export default function Main() {
         <div className="flex flex-row gap-4">
           <div className="">
             <h2 className="text-3xl font-semibold">Welcome to Drive</h2>
-            <p className="text-gray-500">
+            <p className="text-gray-600">
               {files.files.length} files found in your drive 🎉
             </p>
           </div>
