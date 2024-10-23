@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { getFileByName } from "../../api/ApiSearch";
 import { IListMeDataType } from "@/types";
 import { useSearchParams } from "next/navigation";
-import { fetchFilesByName } from "@/hooks/use-search";
 
 export default function Search() {
   const searchparams = useSearchParams();
@@ -25,10 +24,9 @@ export default function Search() {
     };
 
     if (name) {
-      // Only fetch if name is not empty
       fetchFiles();
     }
-  }, [name]); // Dependency array to avoid infinite loop
+  }, [name]);
 
   return (
     <div>
