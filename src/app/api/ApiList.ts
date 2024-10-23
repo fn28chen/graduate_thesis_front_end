@@ -1,3 +1,4 @@
+import { DefaultParams } from "@/types";
 import apiRequest from "./Fetcher";
 
 const apiPath = {
@@ -5,11 +6,13 @@ const apiPath = {
   Upload: "/action/upload",
 };
 
-export function getListMe() {
-  return apiRequest({
+export async function getListMe(params: DefaultParams) {
+  const response = await apiRequest({
     method: "GET",
-    endpoint: apiPath.List,
+    endpoint: `${apiPath.List}`,
+    params,
   });
+  return response;
 }
 
 export function createUploadFile(formData: any) {
