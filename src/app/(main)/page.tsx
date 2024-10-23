@@ -1,11 +1,23 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/Button/button";
 import { Grid, List } from "lucide-react";
+import { getListMe } from "../api/ApiList";
 import Workspace from "@/components/ui/Workspace/workspace";
 
 export default function Main() {
   const [view, setView] = React.useState<"grid" | "list">("grid");
+  const [fetchedFile, setFetchedFile] = React.useState<{
+    files: { Key: string; LastModified: string }[];
+  }>({ files: [] });
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await getListMe({ page: 1, limit: 15 });
+      setFetchedFile(result);
+    }
+    fetchData();
+  }, []);
 
   return (
     <main className="flex-1 overflow-auto p-8">
@@ -13,6 +25,9 @@ export default function Main() {
         <div className="flex flex-row gap-4">
           <div className="">
             <h2 className="text-3xl font-semibold">Welcome to Drive</h2>
+            <p className="text-gray-500">
+              {fetchedFile.files.length} files found in your drive 🎉
+            </p>
           </div>
           <div className="flex items-center justify-center">
             Dropdown Type Filter
