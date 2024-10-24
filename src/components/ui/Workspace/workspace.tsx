@@ -3,7 +3,7 @@ import { getFileIcon, getFileIconPreview } from "@/utils/common";
 import { IListMeDataType } from "@/types";
 import { ScrollArea } from "../ScrollArea/scroll-area";
 import { getListMe } from "@/app/api/ApiList";
-import { PreviewCard } from "@/components/ui/PreviewCard/preview-card";
+import { PreviewCardGrid, PreviewCardList } from "@/components/ui/PreviewCard/preview-card";
 import PaginationController from "@/components/ui/PaginationController";
 export default function Workspace({ view }: { view: string }) {
   const [fetchedFile, setFetchedFile] = useState<IListMeDataType[]>([]);
@@ -14,7 +14,7 @@ export default function Workspace({ view }: { view: string }) {
       const result = await getListMe({ page: currentPage, limit: 15 });
       setFetchedFile(result.files);
       setTotalFiles(result.totalFiles);
-      console.log("Result", result);
+      // console.log("Result", result);
     }
     fetchData();
   }, [currentPage]);
@@ -49,7 +49,7 @@ export default function Workspace({ view }: { view: string }) {
                 file.LastModified
               ).toLocaleDateString("en-GB");
               return (
-                <PreviewCard
+                <PreviewCardGrid
                   key={index}
                   author="Shad"
                   title={truncatedFileName || ""}
