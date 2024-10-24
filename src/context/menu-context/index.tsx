@@ -3,9 +3,6 @@ import {
   ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuSub,
@@ -13,26 +10,51 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { getCookies } from "typescript-cookie";
 
-export function ContextMenuDemo({ children }: { children: React.ReactNode }) {
+interface IContextRightClickProps {
+  fileName: string;
+  children: React.ReactNode;
+}
+
+export function ContextRightClick({
+  fileName,
+  children,
+}: IContextRightClickProps) {
+  const accessToken = getCookies().accessToken;
+  const router = useRouter();
+
+  const handleDownload = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/v1/action/download-presigned/${fileName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const data = response.data;
+      router.push(data);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
+
   return (
     <ContextMenu>
-      <ContextMenuTrigger className="flex h-full w-fullitems-center justify-center rounded-md border border-dashed text-sm">
+      <ContextMenuTrigger className="flex h-full w-full items-center justify-center rounded-md border border-dashed text-sm">
         {children}
       </ContextMenuTrigger>
       <ContextMenuContent className="w-64">
-        <ContextMenuItem inset>
-          Back
-          <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+        <ContextMenuItem inset onClick={handleDownload}>
+          Download
         </ContextMenuItem>
-        <ContextMenuItem inset disabled>
-          Forward
-          <ContextMenuShortcut>⌘]</ContextMenuShortcut>
-        </ContextMenuItem>
-        <ContextMenuItem inset>
-          Reload
-          <ContextMenuShortcut>⌘R</ContextMenuShortcut>
-        </ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem inset>Delete</ContextMenuItem>
+        <ContextMenuItem inset>Copy</ContextMenuItem>
         <ContextMenuSub>
           <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
           <ContextMenuSubContent className="w-48">
@@ -52,15 +74,6 @@ export function ContextMenuDemo({ children }: { children: React.ReactNode }) {
           <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
         </ContextMenuCheckboxItem>
         <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
-        <ContextMenuSeparator />
-        <ContextMenuRadioGroup value="pedro">
-          <ContextMenuLabel inset>People</ContextMenuLabel>
-          <ContextMenuSeparator />
-          <ContextMenuRadioItem value="pedro">
-            Pedro Duarte
-          </ContextMenuRadioItem>
-          <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
-        </ContextMenuRadioGroup>
       </ContextMenuContent>
     </ContextMenu>
   );

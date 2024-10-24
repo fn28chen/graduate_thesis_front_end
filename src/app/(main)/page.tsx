@@ -20,7 +20,7 @@ export default function Main() {
   }, []);
 
   return (
-    <main className="flex-1 overflow-auto p-8">
+    <main className="flex-1 overflow-auto p-6 max-h-screen">
       <div className="flex justify-between items-center mb-6">
         <div className="flex flex-row gap-4">
           <div className="">
