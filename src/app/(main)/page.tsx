@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button/button";
 import { Grid, List } from "lucide-react";
 import { getListMe } from "../api/ApiList";
 import Workspace from "@/components/ui/Workspace/workspace";
+import { DropdownTypeFilter } from "@/components/ui/DropdownTypeFilter/dropdown-type-filter";
 
 export default function Main() {
   const [view, setView] = React.useState<"grid" | "list">("grid");
@@ -30,7 +31,7 @@ export default function Main() {
             </p>
           </div>
           <div className="flex items-center justify-center">
-            Dropdown Type Filter
+            <DropdownTypeFilter />
           </div>
         </div>
         <div className="flex space-x-2">

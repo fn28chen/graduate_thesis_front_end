@@ -45,7 +45,7 @@ export function ContextRightClick({
 
   return (
     <ContextMenu>
-      <ContextMenuTrigger className="flex h-full w-full items-center justify-center rounded-md border border-dashed text-sm">
+      <ContextMenuTrigger className="flex h-full w-full items-center justify-center rounded-md text-sm">
         {children}
       </ContextMenuTrigger>
       <ContextMenuContent className="w-64">

@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback } from "../avatar";
 
 interface IPreviewCardProps {
   author: string;
+  fullTitle: string;
   title: string;
   icon: React.ReactNode;
   iconPreview: React.ReactNode;
@@ -12,6 +13,7 @@ interface IPreviewCardProps {
 }
 export function PreviewCardGrid({
   author,
+  fullTitle,
   title,
   icon,
   iconPreview,
@@ -19,7 +21,7 @@ export function PreviewCardGrid({
 }: IPreviewCardProps) {
   return (
     <div className="max-w-xs w-full group/card border rounded-lg">
-      <ContextRightClick fileName={title}>
+      <ContextRightClick fileName={fullTitle}>
         <div
           className={cn(
             "cursor-pointer overflow-hidden relative card h-[200px] rounded-md shadow-xl max-w-sm mx-auto flex flex-col justify-between p-4"
