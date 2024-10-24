@@ -14,7 +14,7 @@ export default function Workspace({ view }: { view: string }) {
       const result = await getListMe({ page: currentPage, limit: 15 });
       setFetchedFile(result.files);
       setTotalFiles(result.totalFiles);
-      // console.log("Result", result);
+      console.log("Result", result);
     }
     fetchData();
   }, [currentPage]);
@@ -52,6 +52,7 @@ export default function Workspace({ view }: { view: string }) {
                 <PreviewCardGrid
                   key={index}
                   author="Shad"
+                  fullTitle={fileName || ""}
                   title={truncatedFileName || ""}
                   icon={getFileIcon(fileType)}
                   iconPreview={getFileIconPreview(fileType)}
