@@ -21,6 +21,7 @@ import {
 import axios from "axios";
 import { getCookies } from "typescript-cookie";
 import { useRouter } from "next/navigation";
+import { getFileByExtension } from "@/app/api/ApiSearch";
 
 const typeFilter = [
   { label: "All", value: "" },
@@ -38,16 +39,9 @@ export function DropdownTypeFilter() {
   const router = useRouter();
   const fetchData = async (query: string) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/search/extension?query=${query}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const response = await getFileByExtension(query);
       // Handle the response data as needed
-      console.log(response.data);
+      console.log(response);
       router.push(`/search/extensions?query=${query}`);
     } catch (error) {
       console.error("Error fetching data:", error);

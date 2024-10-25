@@ -3,7 +3,7 @@ import apiRequest from "./Fetcher";
 const apiPath = {
   List: "/action/list-me",
   Upload: "/action/upload",
-  DownloadPresignedUrl: `action/download-presigned`,
+  DownloadPresignedUrl: `/action/download-presigned`,
 };
 export async function getListMe(params: DefaultParams) {
   const response = await apiRequest({
