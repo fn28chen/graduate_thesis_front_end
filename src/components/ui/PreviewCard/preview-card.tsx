@@ -20,11 +20,11 @@ export function PreviewCardGrid({
   last_modified,
 }: IPreviewCardProps) {
   return (
-    <div className="max-w-xs w-full group/card border rounded-lg">
+    <div className="max-w-xs w-full group/card border rounded-lg ">
       <ContextRightClick fileName={fullTitle}>
         <div
           className={cn(
-            "cursor-pointer overflow-hidden relative card h-[200px] rounded-md shadow-xl max-w-sm mx-auto flex flex-col justify-between p-4"
+            `cursor-pointer overflow-hidden relative card h-[200px] rounded-md shadow-xl max-w-sm flex flex-col justify-between p-4 w-full`
           )}
         >
           <div className="absolute w-full h-full top-0 left-0 transition duration-300 group-hover/card:bg-black dark:group-hover/card:bg-slate-800 opacity-60"></div>

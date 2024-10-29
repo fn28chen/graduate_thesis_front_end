@@ -1,3 +1,4 @@
+import { getDownloadPresignedUrl } from "@/app/api/ApiList";
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -10,9 +11,7 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { getCookies } from "typescript-cookie";
 
 interface IContextRightClickProps {
   fileName: string;
@@ -23,21 +22,12 @@ export function ContextRightClick({
   fileName,
   children,
 }: IContextRightClickProps) {
-  const accessToken = getCookies().accessToken;
   const router = useRouter();
 
   const handleDownload = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/action/download-presigned/${fileName}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      const data = response.data;
-      router.push(data);
+      const response = await getDownloadPresignedUrl(fileName);
+      router.push(response);
     } catch (error) {
       console.error("Error downloading file:", error);
     }
@@ -45,7 +35,7 @@ export function ContextRightClick({
 
   return (
     <ContextMenu>
-      <ContextMenuTrigger className="flex h-full w-full items-center justify-center rounded-md text-sm">
+      <ContextMenuTrigger className="flex h-full w-full items-center justify-center rounded-md">
         {children}
       </ContextMenuTrigger>
       <ContextMenuContent className="w-64">
