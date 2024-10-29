@@ -16,6 +16,7 @@ import {
 import SearchFile from "@/components/ui/Search/search";
 import { useRouter } from "next/navigation";
 import Config from "@/config";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function NavBar() {
   const router = useRouter();
@@ -28,7 +29,10 @@ export default function NavBar() {
   };
   return (
     <header className="border-b p-6 flex items-center justify-between">
-      <div className="flex items-center w-full max-w-2xl">
+      <div>
+        <SidebarTrigger />
+      </div>
+      <div className="flex items-center w-full max-w-3xl">
         <SearchFile />
       </div>
       <div className="flex items-center space-x-4">
