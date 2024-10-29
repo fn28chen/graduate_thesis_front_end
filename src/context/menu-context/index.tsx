@@ -11,9 +11,7 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { getCookies } from "typescript-cookie";
 
 interface IContextRightClickProps {
   fileName: string;

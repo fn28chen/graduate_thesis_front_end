@@ -1,13 +1,10 @@
 "use client";
 import { getFileByExtension } from "@/app/api/ApiSearch";
 import { PreviewCardGrid } from "@/components/ui/PreviewCard/preview-card";
-import { ScrollArea } from "@/components/ui/ScrollArea/scroll-area";
 import { IListMeDataType } from "@/types";
 import { getFileIcon, getFileIconPreview } from "@/utils/common";
-import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { getCookies } from "typescript-cookie";
 
 function SearchByExtension() {
   const searchParams = useSearchParams().get("query");
@@ -44,8 +41,7 @@ function SearchByExtension() {
 
   return (
     <div
-      className={`grid "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-      } gap-6`}
+      className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6`}
     >
       {fetchedFile.map(
         (file: { Key: string; LastModified: string }, index: number) => {
