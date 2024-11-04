@@ -118,16 +118,14 @@ export default function Workspace({ view }: { view: string }) {
                       <ContextRightClick fileName={fileName || ""}>
                         <TableCell className="w-[300px]">{fileName}</TableCell>
                       </ContextRightClick>
-                      <ContextRightClick fileName={fileName || ""}>
-                        <TableCell className="w-[100px]">{fileType}</TableCell>
-                      </ContextRightClick>
-                        <TableCell className="w-[100px]">
-                          {(size / 1024 / 1024).toFixed(2) + " MB"}
-                        </TableCell>
-                        <TableCell className="w-[300px]">{author}</TableCell>
-                        <TableCell className="w-[300px]">
-                          {last_modified}
-                        </TableCell>
+                      <TableCell className="w-[100px]">{fileType}</TableCell>
+                      <TableCell className="w-[100px]">
+                        {(size / 1024 / 1024).toFixed(2) + " MB"}
+                      </TableCell>
+                      <TableCell className="w-[300px]">{author}</TableCell>
+                      <TableCell className="w-[300px]">
+                        {last_modified}
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 );
