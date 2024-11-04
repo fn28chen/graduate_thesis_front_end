@@ -96,7 +96,10 @@ export default function Sidebar() {
                 <Button
                   className="px-2 py-1 bg-gray-200 text-black dark:bg-black dark:border-black dark:text-white border border-gray-300 rounded-md text-sm w-28"
                   type="button"
-                  onClick={() => form.reset()}
+                  onClick={() => {
+                    form.reset();
+                    setIsModalOpen(false);
+                  }}
                 >
                   Cancel
                 </Button>

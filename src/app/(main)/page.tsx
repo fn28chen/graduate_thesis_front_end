@@ -5,6 +5,8 @@ import { Grid, List } from "lucide-react";
 import { getListMe } from "../api/ApiList";
 import Workspace from "@/components/ui/Workspace/workspace";
 import { DropdownTypeFilter } from "@/components/ui/DropdownTypeFilter/dropdown-type-filter";
+import { getCookies, setCookie } from "typescript-cookie";
+import { useRouter } from "next/navigation";
 
 export default function Main() {
   const [view, setView] = React.useState<"grid" | "list">("grid");
