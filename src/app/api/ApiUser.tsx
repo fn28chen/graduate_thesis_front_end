@@ -27,7 +27,6 @@ const logout = async () => {
       removeCookie("accessToken");
       removeCookie("refreshToken");
       console.log("Logout successful");
-
     } else {
       console.warn("Unexpected response during logout:", response.data);
     }

@@ -22,7 +22,6 @@ export default function NavBar() {
   const router = useRouter();
   const handleLogout = () => {
     logout();
-    // After logout completed 2 seconds later, redirect to login page
     setTimeout(() => {
       router.push(Config.PATHNAME.LOGIN);
     }, 1000);
