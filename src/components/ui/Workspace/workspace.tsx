@@ -38,7 +38,7 @@ export default function Workspace({ view }: { view: string }) {
     <div>
       <ScrollArea
         className={`${
-          view === "grid" ? "h-[calc(100vh-18rem)]" : "h-[calc(100vh-30rem)]"
+          view === "grid" ? "h-[calc(100vh-18rem)]" : "h-[calc(100vh-25rem)]"
         }`}
       >
         {view === "grid" ? (
@@ -85,11 +85,7 @@ export default function Workspace({ view }: { view: string }) {
           <Table className="w-screen">
             <TableHeader className="w-full">
               <TableRow className="w-screen">
-                <TableHead className="w-[300px]">File Name</TableHead>
-                <TableHead className="w-[300px]">Type</TableHead>
-                <TableHead className="w-[100px]">Size</TableHead>
-                <TableHead className="w-[300px]">Author</TableHead>
-                <TableHead className="w-[300px]">Last Modified</TableHead>
+                <TableHead className="w-1/2">File Name</TableHead>
               </TableRow>
             </TableHeader>
             {fetchedFile.map(
@@ -103,6 +99,10 @@ export default function Workspace({ view }: { view: string }) {
                 index: number
               ) => {
                 const fileName = file.Key.split("/").pop();
+                const truncatedFileName =
+                  fileName && fileName.length > 12
+                    ? fileName.slice(0, 12) + "..."
+                    : fileName || "";
                 const extensionFilename = fileName
                   ? fileName.split(".").pop()
                   : "";
@@ -113,21 +113,21 @@ export default function Workspace({ view }: { view: string }) {
                 const size = file.Size;
                 const author = file.owner?.DisplayName || "Unknown";
                 return (
-                  <TableBody className="w-full">
-                    <TableRow className="w-screen">
-                      <ContextRightClick fileName={fileName || ""}>
-                        <TableCell className="w-[300px]">{fileName}</TableCell>
-                      </ContextRightClick>
-                      <TableCell className="w-[100px]">{fileType}</TableCell>
-                      <TableCell className="w-[100px]">
-                        {(size / 1024 / 1024).toFixed(2) + " MB"}
-                      </TableCell>
-                      <TableCell className="w-[300px]">{author}</TableCell>
-                      <TableCell className="w-[300px]">
-                        {last_modified}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
+                  <ContextRightClick fileName={fileName || ""}>
+                    <TableBody className="w-full">
+                      <TableRow className="w-screen">
+                        <TableCell className="w-1/2">
+                          {truncatedFileName}
+                        </TableCell>
+                        <TableCell className="w-1/6">{fileType}</TableCell>
+                        <TableCell className="w-1/6">
+                          {(size / 1024 / 1024).toFixed(2) + " MB"}
+                        </TableCell>
+                        <TableCell className="w-1/6">{author}</TableCell>
+                        <TableCell className="w-1/6">{last_modified}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </ContextRightClick>
                 );
               }
             )}

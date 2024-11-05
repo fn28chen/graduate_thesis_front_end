@@ -3,15 +3,16 @@
 import * as React from "react";
 import {
   BookOpen,
-  Bot,
   Command,
   Frame,
+  HardDrive,
   LifeBuoy,
   Map,
   PieChart,
   Send,
   Settings2,
   SquareTerminal,
+  Trash,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -50,25 +51,6 @@ const data = {
         },
         {
           title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
           url: "#",
         },
       ],
@@ -122,12 +104,7 @@ const data = {
     {
       title: "Trash",
       url: "#",
-      icon: Settings2,
-    },
-    {
-      title: "Max Storage",
-      url: "#",
-      icon: Settings2,
+      icon: Trash,
     },
   ],
   navSecondary: [
@@ -172,8 +149,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <Command className="size-4" />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Acme Inc</span>
+                <div className="grid flex-1 text-left text-lg leading-tight">
+                  <span className="truncate font-semibold">Cloud Drive</span>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -182,6 +159,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
+        <div className="flex flex-row items-center justify-start p-2 gap-2">
+          <HardDrive className="size-4" />
+          <span className="text-base">7.5GB of 15GB used</span>
+        </div>
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
     </Sidebar>
