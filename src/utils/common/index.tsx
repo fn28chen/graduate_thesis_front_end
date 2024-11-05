@@ -124,3 +124,16 @@ export const sidebarItems = [
   { icon: Trash2, label: "Trash" },
   { icon: Database, label: "Storage" },
 ];
+
+export function isTokenExpired(token: string): boolean {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    console.log("Token payload", payload);
+    const expiry = payload.exp;
+    const now = Math.floor(Date.now() / 1000);
+    return now > expiry;
+  } catch (error) {
+    console.error("Failed to parse token", error);
+    return true;
+  }
+}

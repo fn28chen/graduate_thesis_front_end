@@ -20,6 +20,7 @@ import { UserContext } from "@/context/user-context";
 import { useToast } from "@/hooks/use-toast";
 import { loginSchema } from "@/components/ui/FormConfig/Schema";
 import { getCookies, setCookie } from 'typescript-cookie';
+import { isTokenExpired } from "@/utils/common";
 
 export default function Login() {
   const { user, setUser } = useContext(UserContext);
@@ -35,11 +36,10 @@ export default function Login() {
     // Check if tokens are available and not expired
     if (accessToken && refreshToken) {
       // Here you would need to implement a function to check token expiry
-      // For example:
-      // if (isTokenExpired(accessToken) || isTokenExpired(refreshToken)) {
-      //   router.push("/login");
-      //   return;
-      // }
+      if (isTokenExpired(accessToken) || isTokenExpired(refreshToken)) {
+        router.push("/login");
+        return;
+      }
 
       // Check user info in local storage
       const storedUser = localStorage.getItem("user");

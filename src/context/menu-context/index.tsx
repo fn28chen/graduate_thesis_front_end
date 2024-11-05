@@ -1,4 +1,4 @@
-import { getDownloadPresignedUrl } from "@/app/api/ApiList";
+import { deleteFile, getDownloadPresignedUrl } from "@/app/api/ApiList";
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -33,6 +33,15 @@ export function ContextRightClick({
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const response = await deleteFile(fileName);
+      router.push(response);
+    } catch (error) {
+      console.error("Error when delete file: ", error);
+    }
+  }
+
   return (
     <ContextMenu>
       <ContextMenuTrigger className="flex h-full w-full items-center justify-center rounded-md">
@@ -43,7 +52,7 @@ export function ContextRightClick({
           Download
         </ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem inset>Delete</ContextMenuItem>
+        <ContextMenuItem inset onClick={handleDelete}>Delete</ContextMenuItem>
         <ContextMenuItem inset>Copy</ContextMenuItem>
         <ContextMenuSub>
           <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>

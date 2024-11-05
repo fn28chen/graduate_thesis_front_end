@@ -98,7 +98,6 @@ export function NavMain({
   const isLoading = form.formState.isSubmitting;
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         <Modal>
           <ModalTrigger className="bg-black dark:bg-white dark:text-black text-white flex justify-center group/modal-btn">

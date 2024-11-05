@@ -4,7 +4,9 @@ const apiPath = {
   List: "/action/list-me",
   Upload: "/action/upload",
   DownloadPresignedUrl: `/action/download-presigned`,
+  Delete: "/action/delete",
 };
+
 export async function getListMe(params: DefaultParams) {
   const response = await apiRequest({
     method: "GET",
@@ -27,4 +29,11 @@ export function getDownloadPresignedUrl(fileName: string) {
     method: "GET",
     endpoint: `${apiPath.DownloadPresignedUrl}/${fileName}`,
   });
+}
+
+export async function deleteFile(fileName: string) {
+  return apiRequest({
+    method: "DELETE",
+    endpoint: `${apiPath.Delete}/${fileName}`
+  })
 }
