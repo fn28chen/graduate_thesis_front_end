@@ -49,10 +49,6 @@ const data = {
           title: "Starred",
           url: "#",
         },
-        {
-          title: "Settings",
-          url: "#",
-        },
       ],
     },
     {
@@ -103,7 +99,7 @@ const data = {
     },
     {
       title: "Trash",
-      url: "#",
+      url: "/trash",
       icon: Trash,
     },
   ],
