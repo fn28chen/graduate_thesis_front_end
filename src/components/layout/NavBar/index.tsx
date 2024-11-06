@@ -3,7 +3,7 @@ import React from "react";
 import { logout } from "@/app/api/ApiUser";
 import { Button } from "@/components/ui/Button/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { HelpCircle, Menu, Search, Settings, User } from "lucide-react";
+import { HelpCircle, Menu, Settings} from "lucide-react";
 import ThemeToggle from "@/components/theme/components/theme-toggle";
 import {
   DropdownMenu,
@@ -18,14 +18,21 @@ import { useRouter } from "next/navigation";
 import Config from "@/config";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
+
 export default function NavBar() {
   const router = useRouter();
-  const handleLogout = () => {
+
+  function handleLogout() {
     logout();
     setTimeout(() => {
       router.push(Config.PATHNAME.LOGIN);
     }, 1000);
   };
+
+  function handleProfile() {
+    router.push(Config.PATHNAME.PROFILE);
+  }
+
   return (
     <header className="border-b p-6 flex items-center justify-between">
       <div>
@@ -61,7 +68,7 @@ export default function NavBar() {
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem className="" onClick={handleProfile}>Profile</DropdownMenuItem>
             <DropdownMenuItem>Subscription</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuLabel>Logout</DropdownMenuLabel>

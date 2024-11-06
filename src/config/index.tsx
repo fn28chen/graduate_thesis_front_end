@@ -17,6 +17,7 @@ const PATHNAME = {
   HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  PROFILE: "/profile",
 };
 
 // LAYOUT
@@ -27,9 +28,11 @@ const LAYOUT_CONFIG = {
   useBottomNavigator: true,
 };
 
-export default {
+const config = {
   STORE_NAME,
   NETWORK_CONFIG,
   PATHNAME,
   LAYOUT_CONFIG
 };
+
+export default config;
