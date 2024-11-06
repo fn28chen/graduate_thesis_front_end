@@ -25,7 +25,7 @@ function Profile() {
   }
 
   return (
-    <div className="m-10">
+    <div className="flex flex-col items-center justify-center">
       <Link
         href="/"
         className={cn(
@@ -45,7 +45,7 @@ function Profile() {
         </Avatar>
         <h1 className="text-3xl font-bold">{userProfile?.username}</h1>
       </div>
-      <div className="mt-5">
+      <div className="mt-5 w-full max-w-4xl">
         <p>Email: {userProfile?.email}</p>
         <p>
           Created At:{" "}
