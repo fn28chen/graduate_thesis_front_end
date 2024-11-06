@@ -5,8 +5,9 @@ import { Grid, List } from "lucide-react";
 import { getListMe } from "../api/ApiList";
 import Workspace from "@/components/ui/Workspace/workspace";
 import { DropdownTypeFilter } from "@/components/ui/DropdownTypeFilter/dropdown-type-filter";
-import { getCookies, setCookie } from "typescript-cookie";
+import { getCookies } from "typescript-cookie";
 import { useRouter } from "next/navigation";
+import config from "@/config";
 
 export default function Main() {
   const [view, setView] = React.useState<"grid" | "list">("grid");
@@ -14,13 +15,24 @@ export default function Main() {
     files: { Key: string; LastModified: string }[];
   }>({ files: [] });
 
+  const accessToken = getCookies().accessToken;
+  const refreshToken = getCookies().refreshToken;
+
+  const router = useRouter();
+
   useEffect(() => {
+    if (!accessToken || !refreshToken) {
+      router.push(config.PATHNAME.LOGIN);
+      return;
+    }
+
     async function fetchData() {
       const result = await getListMe({ page: 1, limit: 15 });
       setFetchedFile(result);
     }
+
     fetchData();
-  }, []);
+  }, [accessToken, refreshToken, router]);
 
   return (
     <main className="flex-1 overflow-auto p-6 max-h-screen">

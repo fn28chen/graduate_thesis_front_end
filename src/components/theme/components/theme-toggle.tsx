@@ -12,7 +12,7 @@ function ThemeToggle() {
   };
   return (
     <Button
-      size="icon"
+      size={null}
       variant="ghost"
       className="h-12 w-12 rounded-full"
       onClick={toggleTheme}

@@ -2,7 +2,8 @@ import axios, { AxiosRequestConfig } from "axios";
 import Config from "@/config";
 import { getCookies } from "typescript-cookie";
 import { DefaultParams } from "@/types";
-import { NextRouter, useRouter } from "next/router";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 interface IAPIRequest {
   method: string;
