@@ -1,16 +1,11 @@
-"use client";
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { usePathname } from "next/navigation"
 import Register from "./FormConfig/page";
 import Config from "@/config";
 
 export default function RegisterPage() {
-  const pathname = usePathname();
-  // console.log("Pathname: ", pathname);
-
   return (
     <div className="container grid h-screen w-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
       <Link

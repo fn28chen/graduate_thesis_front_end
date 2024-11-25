@@ -6,7 +6,7 @@ import { getFileIcon, getFileIconPreview } from "@/utils/common";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-function SearchByExtension() {
+export default function SearchByExtension() {
   const searchParams = useSearchParams().get("query");
   const [fetchedFile, setFetchedFile] = useState<IListMeDataType[]>([]);
   const [loading, setLoading] = useState(true); // State for loading status
@@ -71,5 +71,3 @@ function SearchByExtension() {
     </div>
   );
 }
-
-export default SearchByExtension;
