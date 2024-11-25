@@ -57,7 +57,12 @@ export default function Workspace({ view }: { view: string }) {
               >
                 {fetchedFile.map(
                   (
-                    file: { Key: string; LastModified: string; owner: IOwner },
+                    file: {
+                      Key: string;
+                      LastModified: string;
+                      owner: IOwner;
+                      url: string;
+                    },
                     index: number
                   ) => {
                     const fileName = file.Key.split("/").pop();
@@ -82,6 +87,7 @@ export default function Workspace({ view }: { view: string }) {
                         icon={getFileIcon(fileType)}
                         iconPreview={getFileIconPreview(fileType)}
                         last_modified={last_modified}
+                        url={file.url}
                       />
                     );
                   }
