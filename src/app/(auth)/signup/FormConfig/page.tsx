@@ -14,19 +14,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { registerSchema } from "@/components/ui/FormConfig/Schema";
 import axios from "axios";
 import Config from "@/config";
 
 export default function Register() {
-  const pathname = usePathname();
   const router = useRouter();
 
-  // 0. Check pathname
-  // console.log(pathname);
   const formSchema = registerSchema;
-  // console.log("Pathname: ", pathname);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -70,13 +66,12 @@ export default function Register() {
     } catch (error) {
       console.error("An error occurred:", error);
     }
-    // console.log(userData);
   };
 
   const isLoading = form.formState.isSubmitting;
 
   return (
-    <section className="">
+    <section className="mx-10 md:mx-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -86,7 +81,7 @@ export default function Register() {
               <FormItem>
                 <FormLabel>Profile Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="Enter your profile name" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -98,7 +93,7 @@ export default function Register() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="Enter your email" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -110,7 +105,7 @@ export default function Register() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="shadcn" {...field} />
+                  <Input type="password" placeholder="Enter your pasword" {...field} />
                 </FormControl>
               </FormItem>
             )}

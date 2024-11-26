@@ -25,7 +25,6 @@ export default function Workspace({ view }: { view: string }) {
       const result = await getListMe({ page: currentPage, limit: 15 });
       setFetchedFile(result.files);
       setTotalFiles(result.totalFiles);
-      console.log("Result", result);
     }
     fetchData();
   }, [currentPage]);
@@ -37,7 +36,9 @@ export default function Workspace({ view }: { view: string }) {
   return (
     <div>
       {fetchedFile.length === 0 ? (
-        <div>Wait a second...</div>
+        <div>
+          No files found
+        </div>
       ) : (
         <>
           <ScrollArea
@@ -57,7 +58,12 @@ export default function Workspace({ view }: { view: string }) {
               >
                 {fetchedFile.map(
                   (
-                    file: { Key: string; LastModified: string; owner: IOwner },
+                    file: {
+                      Key: string;
+                      LastModified: string;
+                      owner: IOwner;
+                      url: string;
+                    },
                     index: number
                   ) => {
                     const fileName = file.Key.split("/").pop();
@@ -82,6 +88,7 @@ export default function Workspace({ view }: { view: string }) {
                         icon={getFileIcon(fileType)}
                         iconPreview={getFileIconPreview(fileType)}
                         last_modified={last_modified}
+                        url={file.url}
                       />
                     );
                   }

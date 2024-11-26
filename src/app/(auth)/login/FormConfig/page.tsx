@@ -23,7 +23,7 @@ import { getCookies, setCookie } from 'typescript-cookie';
 import { isTokenExpired } from "@/utils/common";
 
 export default function Login() {
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const router = useRouter();
   const { toast } = useToast();
   const formSchema = loginSchema;
@@ -119,7 +119,7 @@ export default function Login() {
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder="shadcn"
+                    placeholder="Enter your email"
                     value={field.value || ""}
                     onChange={field.onChange}
                   />
@@ -136,7 +136,7 @@ export default function Login() {
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="shadcn"
+                    placeholder="Enter your password"
                     value={field.value || ""}
                     onChange={field.onChange}
                   />

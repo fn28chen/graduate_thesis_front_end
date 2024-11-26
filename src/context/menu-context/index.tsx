@@ -1,3 +1,5 @@
+import config from "@/config";
+import { useRouter } from "next/navigation";
 import { deleteFile, getDownloadPresignedUrl } from "@/app/api/ApiList";
 import {
   ContextMenu,
@@ -11,7 +13,7 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { useRouter } from "next/navigation";
+
 
 interface IContextRightClickProps {
   fileName: string;
@@ -37,10 +39,13 @@ export function ContextRightClick({
     try {
       const response = await deleteFile(fileName);
       router.push(response);
+      await router.refresh();
+      router.push(config.PATHNAME.HOME);
+      window.location.reload();
     } catch (error) {
       console.error("Error when delete file: ", error);
     }
-  }
+  };
 
   return (
     <ContextMenu>
@@ -52,7 +57,9 @@ export function ContextRightClick({
           Download
         </ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem inset onClick={handleDelete}>Delete</ContextMenuItem>
+        <ContextMenuItem inset onClick={handleDelete}>
+          Delete
+        </ContextMenuItem>
         <ContextMenuItem inset>Copy</ContextMenuItem>
         <ContextMenuSub>
           <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>

@@ -2,8 +2,6 @@ import axios, { AxiosRequestConfig } from "axios";
 import Config from "@/config";
 import { getCookies } from "typescript-cookie";
 import { DefaultParams } from "@/types";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 interface IAPIRequest {
   method: string;
@@ -33,13 +31,13 @@ export async function apiRequest({
 
   // Get the authentication header
   const authHeader = getAuthentication();
-  if (!authHeader) {
-    throw new Error("Unauthorized: Missing access token");
-  }
+  // if (!authHeader) {
+  //   throw new Error("Unauthorized: Missing access token");
+  // }
 
   const headers: AxiosRequestConfig["headers"] = {
     "Content-Type": isFormData ? "multipart/form-data" : "application/json",
-    Authorization: authHeader, // Set the authorization header here
+    Authorization: authHeader, 
   };
 
   const config: AxiosRequestConfig = {

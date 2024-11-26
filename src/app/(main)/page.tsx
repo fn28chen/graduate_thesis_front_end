@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button/button";
 import { Grid, List } from "lucide-react";
 import { getListMe } from "../api/ApiList";
@@ -9,10 +9,15 @@ import { getCookies } from "typescript-cookie";
 import { useRouter } from "next/navigation";
 import config from "@/config";
 
+interface IFile {
+  Key: string;
+  LastModified: string;
+}
+
 export default function Main() {
-  const [view, setView] = React.useState<"grid" | "list">("grid");
-  const [fetchedFile, setFetchedFile] = React.useState<{
-    files: { Key: string; LastModified: string }[];
+  const [view, setView] = useState<"grid" | "list">("grid");
+  const [fetchedFile, setFetchedFile] = useState<{
+    files: IFile[];
   }>({ files: [] });
 
   const accessToken = getCookies().accessToken;

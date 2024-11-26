@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { ContextRightClick } from "@/context/menu-context";
 import { Avatar, AvatarFallback } from "../avatar";
+import Image from "next/image";
 
 interface IPreviewCardProps {
   author: string;
@@ -10,6 +11,7 @@ interface IPreviewCardProps {
   icon: React.ReactNode;
   iconPreview: React.ReactNode;
   last_modified: string;
+  url: string;
 }
 export function PreviewCardGrid({
   author,
@@ -18,6 +20,7 @@ export function PreviewCardGrid({
   icon,
   iconPreview,
   last_modified,
+  url,
 }: IPreviewCardProps) {
   return (
     <div className="max-w-xs w-full group/card border rounded-lg ">
@@ -38,7 +41,11 @@ export function PreviewCardGrid({
             className="flex justify-center items-center mt-4"
             style={{ fontSize: "44px" }}
           >
-            {iconPreview}
+            {url ? (
+              <Image src={url} alt="image" width={44} height={44} />
+            ) : (
+              iconPreview
+            )}
           </div>
           <div className="flex flex-row gap-4">
             <Avatar className="w-8 h-8">
