@@ -43,7 +43,7 @@ export default function Search() {
             >
               {files.map(
                 (
-                  file: { Key: string; LastModified: string },
+                  file: { Key: string; LastModified: string; url: string },
                   index: number
                 ) => {
                   const fileName = file.Key.split("/").pop();
@@ -67,6 +67,7 @@ export default function Search() {
                       icon={getFileIcon(fileType)}
                       iconPreview={getFileIconPreview(fileType)}
                       last_modified={last_modified}
+                      url={file.url}
                     />
                   );
                 }

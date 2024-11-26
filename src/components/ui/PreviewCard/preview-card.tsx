@@ -37,16 +37,16 @@ export function PreviewCardGrid({
               <p className="text-sm text-gray-400 flex-wrap">{title}</p>
             </div>
           </div>
-            <div
+          <div
             className="flex justify-center items-center mt-4"
             style={{ fontSize: "44px" }}
-            >
+          >
             {url ? (
               <Image src={url} alt="image" width={44} height={44} />
             ) : (
               iconPreview
             )}
-            </div>
+          </div>
           <div className="flex flex-row gap-4">
             <Avatar className="w-8 h-8">
               <AvatarFallback>{author[0]}</AvatarFallback>

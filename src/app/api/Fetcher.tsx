@@ -31,9 +31,9 @@ export async function apiRequest({
 
   // Get the authentication header
   const authHeader = getAuthentication();
-  if (!authHeader) {
-    throw new Error("Unauthorized: Missing access token");
-  }
+  // if (!authHeader) {
+  //   throw new Error("Unauthorized: Missing access token");
+  // }
 
   const headers: AxiosRequestConfig["headers"] = {
     "Content-Type": isFormData ? "multipart/form-data" : "application/json",
