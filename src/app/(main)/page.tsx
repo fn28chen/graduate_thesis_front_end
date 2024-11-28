@@ -45,9 +45,6 @@ export default function Main() {
         <div className="flex flex-row gap-4">
           <div className="">
             <h2 className="text-3xl font-semibold">Welcome to Drive</h2>
-            <p className="text-gray-500">
-              {fetchedFile.files.length} files found in your drive 🎉
-            </p>
           </div>
           <div className="flex items-center justify-center">
             <DropdownTypeFilter />
