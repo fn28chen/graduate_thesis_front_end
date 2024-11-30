@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createUploadFile } from "@/app/api/ApiList";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/router";
 
 const formSchema = z.object({
   uploadFile: z.instanceof(File, {
@@ -28,6 +29,7 @@ const formSchema = z.object({
 export default function Sidebar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
 
   // Define form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -61,13 +63,13 @@ export default function Sidebar() {
 
       // 2. Send request to upload file
       const response = await createUploadFile(formData);
-      console.log("Response: ", response);
       console.log("Upload successful:", response);
-      toast({ description: "Upload complete!" });
+      
+      toast({ description: "Upload complete!", duration: 2000 });
       setIsModalOpen(false);
+      router.reload();
     } catch (error) {
-      console.error("Upload failed:", error);
-      toast({ description: "Upload failed!" });
+      toast({ description: "Upload failed!",  duration: 2000 });
     }
   };
 

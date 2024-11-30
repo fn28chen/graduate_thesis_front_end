@@ -10,8 +10,8 @@ const apiPath = {
 export async function getListMe(params: DefaultParams) {
   const response = await apiRequest({
     method: "GET",
-    endpoint: `${apiPath.List}/?page=${params.page}&limit=${params.limit}`,
-  });
+    endpoint: `${apiPath.List}?page=${params.page}&limit=${params.limit}`,
+  }); 
   return response;
 }
 

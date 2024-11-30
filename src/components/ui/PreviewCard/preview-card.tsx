@@ -31,21 +31,26 @@ export function PreviewCardGrid({
           )}
         >
           <div className="absolute w-full h-full top-0 left-0 transition duration-300 group-hover/card:bg-black dark:group-hover/card:bg-slate-800 opacity-60"></div>
-          <div className="flex flex-row items-center space-x-4 z-10">
+          <div className="flex flex-row items-center space-x-4">
             <div>{icon}</div>
             <div className="flex flex-col">
               <p className="text-sm text-gray-400 flex-wrap">{title}</p>
             </div>
           </div>
           <div
-            className="flex justify-center items-center mt-4"
-            style={{ fontSize: "44px" }}
+            className="flex justify-center items-center mt-4 overflow-hidden opacity-50"
+            style={{ width: "200px", height: "150px" }}
           >
-            {url ? (
-              <Image src={url} alt="image" width={44} height={44} />
-            ) : (
-              iconPreview
-            )}
+            <div
+              className="flex justify-center items-center mt-4 overflow-hidden opacity-50"
+              style={{ width: "75%", height: "75%" }}
+            >
+              {url ? (
+                <Image src={url} alt="image" layout="fill" objectFit="cover" />
+              ) : (
+                iconPreview
+              )}
+            </div>
           </div>
           <div className="flex flex-row gap-4">
             <Avatar className="w-8 h-8">

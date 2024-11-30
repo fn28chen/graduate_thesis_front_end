@@ -1,11 +1,13 @@
 import config from "@/config";
 import axios from "axios";
 import { getCookies, removeCookie } from "typescript-cookie";
+import apiRequest from "./Fetcher";
 
 const path = {
   login: "/auth/login",
   signup: "/auth/signup",
   logout: "/auth/logout",
+  getMe: "/user/me",
 };
 
 const logout = async () => {
@@ -36,5 +38,12 @@ const logout = async () => {
     throw error;
   }
 };
+
+export function getMe() {
+  return apiRequest({
+    method: "GET",
+    endpoint: path.getMe,
+  });
+}
 
 export { logout };
