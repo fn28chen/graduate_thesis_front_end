@@ -5,13 +5,13 @@ import { Avatar, AvatarFallback } from "../avatar";
 import Image from "next/image";
 
 interface IPreviewCardProps {
-  author: string;
-  fullTitle: string;
-  title: string;
-  icon: React.ReactNode;
-  iconPreview: React.ReactNode;
-  last_modified: string;
-  url: string;
+  author?: string;
+  fullTitle?: string;
+  title?: string;
+  icon?: React.ReactNode;
+  iconPreview?: React.ReactNode;
+  last_modified?: string;
+  url?: string;
 }
 export function PreviewCardGrid({
   author,
@@ -24,7 +24,7 @@ export function PreviewCardGrid({
 }: IPreviewCardProps) {
   return (
     <div className="max-w-xs w-full group/card border rounded-lg ">
-      <ContextRightClick fileName={fullTitle}>
+      <ContextRightClick fileName={fullTitle!}>
         <div
           className={cn(
             `cursor-pointer overflow-hidden relative card h-[200px] rounded-md shadow-xl max-w-sm flex flex-col justify-between p-4 w-full`
@@ -45,7 +45,7 @@ export function PreviewCardGrid({
               className="flex justify-center items-center mt-4 overflow-hidden opacity-50"
               style={{ width: "75%", height: "75%" }}
             >
-              {url ? (
+              {url && /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(url) ? (
                 <Image src={url} alt="image" layout="fill" objectFit="cover" />
               ) : (
                 iconPreview
@@ -54,7 +54,7 @@ export function PreviewCardGrid({
           </div>
           <div className="flex flex-row gap-4">
             <Avatar className="w-8 h-8">
-              <AvatarFallback>{author[0]}</AvatarFallback>
+              <AvatarFallback>{author![0]}</AvatarFallback>
             </Avatar>
             <p className="flex items-center justify-center text-sm">
               Last Modified: {last_modified}
@@ -75,7 +75,7 @@ export function PreviewCardList({
 }: IPreviewCardProps) {
   return (
     <div className="w-full group/card border rounded-lg">
-      <ContextRightClick fileName={title}>
+      <ContextRightClick fileName={title!}>
         <div
           className={cn(
             "cursor-pointer overflow-hidden relative card h-[120px] rounded-md shadow-xl flex items-center px-4"

@@ -19,7 +19,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter } from "next/navigation";
-import { getFileByExtension } from "@/app/api/ApiSearch";
 
 const typeFilter = [
   { label: "All", value: "" },
@@ -35,7 +34,6 @@ export function DropdownTypeFilter() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const router = useRouter();
-  const lastResult = React.useRef<any>(null);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

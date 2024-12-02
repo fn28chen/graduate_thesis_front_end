@@ -28,7 +28,7 @@ function Profile() {
         console.error("Error fetching user:", error);
       }
     };
-    fetchUser();
+    fetchUser().catch((error) => console.error("Error in fetchUser:", error));
   }, []);
 
   console.log(userProfile);

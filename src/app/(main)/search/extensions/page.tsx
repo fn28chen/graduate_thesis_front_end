@@ -52,7 +52,7 @@ export default function SearchByExtension() {
 
   useEffect(() => {
     if (searchParams) {
-      fetchData(searchParams);
+      void fetchData(searchParams);
     }
   }, [searchParams]);
 
@@ -74,27 +74,27 @@ export default function SearchByExtension() {
           index: number
         ) => {
           const fileName = file.Key.split("/").pop();
-          const truncatedFileName =
+            const truncatedFileName =
             fileName && fileName.length > 12
               ? fileName.slice(0, 12) + "..."
-              : fileName || "";
+              : fileName ?? "";
           const extensionFilename = fileName ? fileName.split(".").pop() : "";
-          const fileType = extensionFilename?.toLowerCase() || "";
+            const fileType = extensionFilename?.toLowerCase() ?? "";
           const last_modified = new Date(file.LastModified).toLocaleDateString(
             "en-GB"
           );
-          return (
+            return (
             <PreviewCardGrid
               key={index}
               author="Shad"
-              fullTitle={fileName || ""}
-              title={truncatedFileName || ""}
+              fullTitle={fileName ?? ""}
+              title={truncatedFileName ?? ""}
               icon={getFileIcon(fileType)}
               iconPreview={getFileIconPreview(fileType)}
               last_modified={last_modified}
               url={file.url}
             />
-          );
+            );
         }
       )}{" "}
     </div>

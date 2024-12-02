@@ -23,7 +23,7 @@ export default function NavBar() {
   const router = useRouter();
 
   function handleLogout() {
-    logout();
+    void logout();
     setTimeout(() => {
       router.push(Config.PATHNAME.LOGIN);
     }, 1000);

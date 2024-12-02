@@ -8,7 +8,7 @@ interface User {
 
 interface UserContextProps {
   user: User | null;
-  setUser: (user: User | null) => void;
+  setUser: (user: User) => void;
 }
 
 export const UserContext = createContext<UserContextProps>({

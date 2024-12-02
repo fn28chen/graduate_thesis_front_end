@@ -34,10 +34,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import config from "@/config";
 
-export function NavMain({
-  items,
-}: {
+interface NavMainProps {
   items: {
     title: string;
     url: string;
@@ -48,8 +48,11 @@ export function NavMain({
       url: string;
     }[];
   }[];
-}) {
+}
+
+export function NavMain({ items }: NavMainProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   // Define form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -87,6 +90,8 @@ export function NavMain({
       console.log("Upload successful:", response);
       toast({ description: "Upload complete!" });
       setIsModalOpen(false);
+      router.refresh();
+      router.push(config.PATHNAME.HOME);
     } catch (error) {
       console.error("Upload failed:", error);
       toast({ description: "Upload failed!" });

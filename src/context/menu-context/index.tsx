@@ -14,7 +14,6 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 
-
 interface IContextRightClickProps {
   fileName: string;
   children: React.ReactNode;
@@ -39,7 +38,7 @@ export function ContextRightClick({
     try {
       const response = await deleteFile(fileName);
       router.push(response);
-      await router.refresh();
+      router.refresh();
       router.push(config.PATHNAME.HOME);
       window.location.reload();
     } catch (error) {

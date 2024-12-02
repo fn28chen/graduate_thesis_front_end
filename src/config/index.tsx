@@ -32,7 +32,7 @@ const config = {
   STORE_NAME,
   NETWORK_CONFIG,
   PATHNAME,
-  LAYOUT_CONFIG
+  LAYOUT_CONFIG,
 };
 
 export default config;
