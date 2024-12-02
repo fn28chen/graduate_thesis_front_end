@@ -1,43 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/Button/button";
 import { Grid, List } from "lucide-react";
-import { getListMe } from "../api/ApiList";
 import Workspace from "@/components/ui/Workspace/workspace";
 import { DropdownTypeFilter } from "@/components/ui/DropdownTypeFilter/dropdown-type-filter";
-import { getCookies } from "typescript-cookie";
-import { useRouter } from "next/navigation";
-import config from "@/config";
-
-interface IFile {
-  Key: string;
-  LastModified: string;
-}
 
 export default function Main() {
   const [view, setView] = useState<"grid" | "list">("grid");
-  const [fetchedFile, setFetchedFile] = useState<{
-    files: IFile[];
-  }>({ files: [] });
-
-  const accessToken = getCookies().accessToken;
-  const refreshToken = getCookies().refreshToken;
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!accessToken || !refreshToken) {
-      router.push(config.PATHNAME.LOGIN);
-      return;
-    }
-
-    async function fetchData() {
-      const result = await getListMe({ page: 1, limit: 15 });
-      setFetchedFile(result);
-    }
-
-    fetchData();
-  }, [accessToken, refreshToken, router]);
 
   return (
     <main className="flex-1 overflow-auto p-6 max-h-screen">

@@ -5,40 +5,49 @@ import { cn } from "@/lib/utils";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getMe } from "../api/ApiUser";
 
 interface IUser {
-  user: {
-    username: string;
-    email: string;
-    avatar?: string;
-    createdAt?: string;
-  };
+  id: number;
+  username: string;
+  email: string;
+  avatarUrl?: string;
+  createdAt?: string;
 }
-function Profile() {
-  const storageUser = localStorage.getItem("user");
-  const user: IUser | null = storageUser ? JSON.parse(storageUser) : null;
-  const userProfile = user?.user;
 
-  if (!user) {
-    return null;
-  }
+function Profile() {
+  const [userProfile, setUserProfile] = useState<IUser>();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await getMe();
+        setUserProfile(response);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  console.log(userProfile);
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center w-full max-w-[400px] sm:max-w-[600px] lg:max-w-[800px] mx-auto">
       <Link
         href="/"
-        className={cn(
-          buttonVariants({ variant: "ghost" }),
-          "absolute left-4 top-4 md:left-8 md:top-8"
-        )}
+        className={cn(buttonVariants({ variant: "outline" }), "self-start")}
       >
         <ArrowLeft className="w-6 h-6" />
       </Link>
       <div className="flex flex-col items-center justify-center w-full gap-4">
         <h1 className="text-2xl">Profile</h1>
         <Avatar className="w-24 h-24">
-          <AvatarImage src={userProfile?.avatar} alt={userProfile?.username} />
+          <AvatarImage
+            src={userProfile?.avatarUrl}
+            alt={userProfile?.username}
+          />
           <AvatarFallback delayMs={200} className="text-3xl">
             {userProfile?.username[0]}
           </AvatarFallback>

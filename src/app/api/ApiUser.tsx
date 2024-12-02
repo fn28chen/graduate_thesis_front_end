@@ -39,11 +39,11 @@ const logout = async () => {
   }
 };
 
-export function getMe() {
+function getMe() {
   return apiRequest({
     method: "GET",
     endpoint: path.getMe,
   });
 }
 
-export { logout };
+export { logout, getMe };

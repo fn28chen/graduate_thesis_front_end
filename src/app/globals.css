@@ -8,10 +8,9 @@ body {
   overflow: auto !important;
 }
 
-/* nextjs-portal {
+nextjs-portal {
   display: none;
-} */
-
+}
 
 @layer utilities {
   .text-balance {
