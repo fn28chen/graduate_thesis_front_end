@@ -3,20 +3,21 @@ import axios from "axios";
 import { getCookies, removeCookie } from "typescript-cookie";
 import apiRequest from "./Fetcher";
 
-const path = {
+const apiPath = {
   login: "/auth/login",
   signup: "/auth/signup",
   logout: "/auth/logout",
-  getMe: "/user/me",
+  profile: "/user/me",
+  updateAvatar: "/user/me/avatar",
 };
 
-const logout = async () => {
+export const logout = async () => {
   try {
     const accessToken = getCookies().accessToken;
     const refreshToken = getCookies().refreshToken;
 
     const response = await axios.post(
-      config.NETWORK_CONFIG.API_BASE_URL + path.logout,
+      config.NETWORK_CONFIG.API_BASE_URL + apiPath.logout,
       {
         accessToken: accessToken,
         refreshToken: refreshToken,
@@ -39,11 +40,19 @@ const logout = async () => {
   }
 };
 
-function getMe() {
+export async function profile() {
   return apiRequest({
     method: "GET",
-    endpoint: path.getMe,
+    endpoint: apiPath.profile,
   });
 }
 
-export { logout, getMe };
+export function updateAvatar(data: FormData) {
+  return apiRequest({
+    method: "POST",
+    endpoint: apiPath.updateAvatar,
+    isFormData: true,
+    data,
+  });
+}
+

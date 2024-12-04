@@ -17,8 +17,8 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "nestjs-uploader-indicloud.s3.amazonaws.com"
-      }
+        hostname: "nestjs-uploader-indicloud.s3.amazonaws.com",
+      },
     ],
   },
 };
