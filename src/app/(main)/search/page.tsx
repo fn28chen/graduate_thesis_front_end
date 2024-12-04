@@ -8,7 +8,7 @@ import { getFileIcon, getFileIconPreview } from "@/utils/common";
 
 export default function Search() {
   const searchparams = useSearchParams();
-  const name = searchparams.get("query") || "";
+  const name = searchparams.get("query") ?? "";
   const [files, setFiles] = useState<IListMeDataType[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -26,7 +26,9 @@ export default function Search() {
     };
 
     if (name) {
-      fetchFiles();
+      fetchFiles().catch((error) =>
+        console.error("Error in fetchFiles:", error)
+      );
     }
   }, [name]);
 
@@ -43,18 +45,18 @@ export default function Search() {
             >
               {files.map(
                 (
-                  file: { Key: string; LastModified: string },
+                  file: { Key: string; LastModified: string; url: string },
                   index: number
                 ) => {
                   const fileName = file.Key.split("/").pop();
                   const truncatedFileName =
                     fileName && fileName.length > 12
                       ? fileName.slice(0, 12) + "..."
-                      : fileName || "";
+                      : (fileName ?? "");
                   const extensionFilename = fileName
                     ? fileName.split(".").pop()
                     : "";
-                  const fileType = extensionFilename?.toLowerCase() || "";
+                  const fileType = extensionFilename?.toLowerCase() ?? "";
                   const last_modified = new Date(
                     file.LastModified
                   ).toLocaleDateString("en-GB");
@@ -62,11 +64,12 @@ export default function Search() {
                     <PreviewCardGrid
                       key={index}
                       author="Shad"
-                      fullTitle={fileName || ""}
-                      title={truncatedFileName || ""}
+                      fullTitle={fileName ?? ""}
+                      title={truncatedFileName ?? ""}
                       icon={getFileIcon(fileType)}
                       iconPreview={getFileIconPreview(fileType)}
                       last_modified={last_modified}
+                      url={file.url}
                     />
                   );
                 }

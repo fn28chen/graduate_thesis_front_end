@@ -18,35 +18,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import axios from "axios";
-import { getCookies } from "typescript-cookie";
 import { useRouter } from "next/navigation";
-import { getFileByExtension } from "@/app/api/ApiSearch";
 
 const typeFilter = [
   { label: "All", value: "" },
-  { label: "Text", value: "text" },
-  { label: "Image", value: "png" },
-  { label: "Audio", value: "audio" },
-  { label: "Video", value: "video" },
-  { label: "Document", value: "document" },
+  { label: "Text", value: "txt" },
+  { label: "Image", value: "img" },
+  { label: "Audio", value: "aud" },
+  { label: "Video", value: "mp4" },
+  { label: "Document", value: "doc" },
 ];
+
 
 export function DropdownTypeFilter() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
-  const accessToken = getCookies().accessToken;
   const router = useRouter();
-  const fetchData = async (query: string) => {
-    try {
-      const response = await getFileByExtension(query);
-      // Handle the response data as needed
-      console.log(response);
-      router.push(`/search/extensions?query=${query}`);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -73,15 +60,47 @@ export function DropdownTypeFilter() {
                 <CommandItem
                   key={type.value}
                   value={type.value}
-                  onSelect={(currentValue) => {
+                  onSelect={async (currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
 
-                    // Call fetchData if "Image" is selected
-                    if (currentValue === "png") {
-                      fetchData("png");
+                    // Call fetchData based on the selected type
+                    let extensions: any[] = [];
+                    switch (currentValue) {
+                      case "img":
+                        extensions = ["png", "jpg", "gif", "bmp", "jpeg"];
+                        break;
+                      case "txt":
+                        extensions = ["txt"];
+                        break;
+                      case "aud":
+                        extensions = ["mp3"];
+                        break;
+                      case "mp4":
+                        extensions = ["mp4", "avi", "mov", "wmv"];
+                        break;
+                      case "doc":
+                        extensions = [
+                          "doc",
+                          "docx",
+                          "xls",
+                          "xlsx",
+                          "ppt",
+                          "pptx",
+                        ];
+                        break;
+                      default:
+                        extensions = []; // Ensure extensions is initialized to an empty array
+                        break;
                     }
-                    // Add more conditions for different types if necessary
+
+                    if (extensions.length > 0) {
+                      try {
+                        router.push(`/search/extensions?query=${currentValue}`);
+                      } catch (error) {
+                        console.error("Error fetching data:", error);
+                      }
+                    }
                   }}
                 >
                   <Check

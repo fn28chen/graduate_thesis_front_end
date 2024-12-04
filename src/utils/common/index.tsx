@@ -127,7 +127,7 @@ export const sidebarItems = [
 
 export function isTokenExpired(token: string): boolean {
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = JSON.parse(atob(token.split(".")[1]));
     console.log("Token payload", payload);
     const expiry = payload.exp;
     const now = Math.floor(Date.now() / 1000);

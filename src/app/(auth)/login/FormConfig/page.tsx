@@ -15,15 +15,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "@/context/user-context";
 import { useToast } from "@/hooks/use-toast";
 import { loginSchema } from "@/components/ui/FormConfig/Schema";
-import { getCookies, setCookie } from 'typescript-cookie';
+import { getCookies, setCookie } from "typescript-cookie";
 import { isTokenExpired } from "@/utils/common";
 
 export default function Login() {
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const router = useRouter();
   const { toast } = useToast();
   const formSchema = loginSchema;
@@ -44,7 +44,7 @@ export default function Login() {
       // Check user info in local storage
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
+        setUser(JSON.parse(storedUser)!);
         router.push("/"); // Already logged in
       }
     } else {
@@ -80,7 +80,7 @@ export default function Login() {
 
         // Update user context
         setUser(userData);
-        
+
         toast({
           title: "Login successfully!",
           description: "You're logged in successfully!",
@@ -119,7 +119,7 @@ export default function Login() {
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder="shadcn"
+                    placeholder="Enter your email"
                     value={field.value || ""}
                     onChange={field.onChange}
                   />
@@ -136,7 +136,7 @@ export default function Login() {
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="shadcn"
+                    placeholder="Enter your password"
                     value={field.value || ""}
                     onChange={field.onChange}
                   />
@@ -145,9 +145,7 @@ export default function Login() {
             )}
           />
           <div className="flex flex-col gap-4">
-            <Button type="submit">
-              Submit
-            </Button>
+            <Button type="submit">Submit</Button>
           </div>
         </form>
       </Form>

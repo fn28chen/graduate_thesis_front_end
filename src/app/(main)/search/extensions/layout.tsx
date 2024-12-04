@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { DropdownTypeFilter } from "@/components/ui/DropdownTypeFilter/dropdown-type-filter";
 
 export default function Layout({

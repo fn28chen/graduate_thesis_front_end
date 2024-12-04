@@ -6,15 +6,40 @@ import { getFileIcon, getFileIconPreview } from "@/utils/common";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-function SearchByExtension() {
+export default function SearchByExtension() {
   const searchParams = useSearchParams().get("query");
   const [fetchedFile, setFetchedFile] = useState<IListMeDataType[]>([]);
   const [loading, setLoading] = useState(true); // State for loading status
   const [error, setError] = useState<string | null>(null); // State for error handling
+  let extensions: string[] = [];
 
   const fetchData = async (query: string) => {
     try {
-      const response = await getFileByExtension(query);
+      switch (query) {
+        case "img":
+          extensions = ["png", "jpg", "gif", "bmp", "jpeg"];
+          break;
+        case "txt":
+          extensions = ["txt"];
+          break;
+        case "aud":
+          extensions = ["mp3"];
+          break;
+        case "mp4":
+          extensions = ["mp4", "avi", "mov", "wmv"];
+          break;
+        case "doc":
+          extensions = ["doc", "docx", "xls", "xlsx", "ppt", "pptx"];
+          break;
+        default:
+          extensions = []; // Ensure extensions is initialized to an empty array
+          break;
+      }
+      let response: IListMeDataType[] = [];
+      for (const ext of extensions) {
+        const res = await getFileByExtension(ext);
+        response = response.concat(res);
+      }
       console.log("Response", response);
       setFetchedFile(response);
       setLoading(false); // Set loading to false after data is fetched
@@ -27,7 +52,7 @@ function SearchByExtension() {
 
   useEffect(() => {
     if (searchParams) {
-      fetchData(searchParams);
+      void fetchData(searchParams);
     }
   }, [searchParams]);
 
@@ -44,32 +69,34 @@ function SearchByExtension() {
       className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6`}
     >
       {fetchedFile.map(
-        (file: { Key: string; LastModified: string }, index: number) => {
+        (
+          file: { Key: string; LastModified: string; url: string },
+          index: number
+        ) => {
           const fileName = file.Key.split("/").pop();
-          const truncatedFileName =
+            const truncatedFileName =
             fileName && fileName.length > 12
               ? fileName.slice(0, 12) + "..."
-              : fileName || "";
+              : fileName ?? "";
           const extensionFilename = fileName ? fileName.split(".").pop() : "";
-          const fileType = extensionFilename?.toLowerCase() || "";
+            const fileType = extensionFilename?.toLowerCase() ?? "";
           const last_modified = new Date(file.LastModified).toLocaleDateString(
             "en-GB"
           );
-          return (
+            return (
             <PreviewCardGrid
               key={index}
               author="Shad"
-              fullTitle={fileName || ""}
-              title={truncatedFileName || ""}
+              fullTitle={fileName ?? ""}
+              title={truncatedFileName ?? ""}
               icon={getFileIcon(fileType)}
               iconPreview={getFileIconPreview(fileType)}
               last_modified={last_modified}
+              url={file.url}
             />
-          );
+            );
         }
       )}{" "}
     </div>
   );
 }
-
-export default SearchByExtension;

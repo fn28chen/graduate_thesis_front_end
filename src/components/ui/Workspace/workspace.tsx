@@ -24,10 +24,10 @@ export default function Workspace({ view }: { view: string }) {
     async function fetchData() {
       const result = await getListMe({ page: currentPage, limit: 15 });
       setFetchedFile(result.files);
+      console.log(result.files.owner);
       setTotalFiles(result.totalFiles);
-      console.log("Result", result);
     }
-    fetchData();
+    fetchData().catch((error) => console.error(error));
   }, [currentPage]);
 
   const handlePageChange = (page: number) => {
@@ -37,7 +37,7 @@ export default function Workspace({ view }: { view: string }) {
   return (
     <div>
       {fetchedFile.length === 0 ? (
-        <div>Wait a second...</div>
+        <div>No files found</div>
       ) : (
         <>
           <ScrollArea
@@ -57,31 +57,38 @@ export default function Workspace({ view }: { view: string }) {
               >
                 {fetchedFile.map(
                   (
-                    file: { Key: string; LastModified: string; owner: IOwner },
+                    file: {
+                      Key: string;
+                      LastModified: string;
+                      owner: IOwner;
+                      url: string;
+                    },
                     index: number
                   ) => {
                     const fileName = file.Key.split("/").pop();
                     const truncatedFileName =
                       fileName && fileName.length > 12
                         ? fileName.slice(0, 12) + "..."
-                        : fileName || "";
+                        : (fileName ?? "");
                     const extensionFilename = fileName
                       ? fileName.split(".").pop()
                       : "";
-                    const fileType = extensionFilename?.toLowerCase() || "";
+                    const fileType = extensionFilename?.toLowerCase() ?? "";
                     const last_modified = new Date(
                       file.LastModified
                     ).toLocaleDateString("en-GB");
                     const author = file.owner?.DisplayName || "Unknown";
+                    console.log(author);
                     return (
                       <PreviewCardGrid
                         key={index}
                         author={author}
-                        fullTitle={fileName || ""}
-                        title={truncatedFileName || ""}
+                        fullTitle={fileName ?? ""}
+                        title={truncatedFileName ?? ""}
                         icon={getFileIcon(fileType)}
                         iconPreview={getFileIconPreview(fileType)}
                         last_modified={last_modified}
+                        url={file.url}
                       />
                     );
                   }
@@ -108,18 +115,18 @@ export default function Workspace({ view }: { view: string }) {
                     const truncatedFileName =
                       fileName && fileName.length > 12
                         ? fileName.slice(0, 12) + "..."
-                        : fileName || "";
+                        : (fileName ?? "");
                     const extensionFilename = fileName
                       ? fileName.split(".").pop()
                       : "";
-                    const fileType = extensionFilename?.toLowerCase() || "";
+                    const fileType = extensionFilename?.toLowerCase() ?? "";
                     const last_modified = new Date(
                       file.LastModified
                     ).toLocaleDateString("en-GB");
                     const size = file.Size;
                     const author = file.owner?.DisplayName || "Unknown";
                     return (
-                      <ContextRightClick fileName={fileName || ""}>
+                      <ContextRightClick key={index} fileName={fileName ?? ""}>
                         <TableBody className="w-full">
                           <TableRow className="w-screen">
                             <TableCell className="w-1/2">

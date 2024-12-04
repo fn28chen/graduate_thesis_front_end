@@ -17,7 +17,7 @@ export async function getListMe(params: DefaultParams) {
   return response;
 }
 
-export function createUploadFile(formData: any) {
+export function createUploadFile(formData: FormData) {
   return apiRequest({
     method: "POST",
     endpoint: apiPath.Upload,
