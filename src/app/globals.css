@@ -14,7 +14,7 @@ nextjs-portal {
 
 
 @layer utilities {
-  .text-balance {
+.text-balance {
     text-wrap: balance;
   }
 }
