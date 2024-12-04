@@ -17,7 +17,9 @@ export default function TrashPage() {
       const response = await getTrashFolder();
       setTrashData(response);
     }
-    fetchTrashData();
+    fetchTrashData().catch((error) => {
+      console.error(error);
+    });
   }, []);
   return (
     <div>
@@ -34,11 +36,11 @@ export default function TrashPage() {
                 const truncatedFileName =
                   fileName && fileName.length > 12
                     ? fileName.slice(0, 12) + "..."
-                    : fileName || "";
+                    : (fileName ?? "");
                 const extensionFilename = fileName
                   ? fileName.split(".").pop()
                   : "";
-                const fileType = extensionFilename?.toLowerCase() || "";
+                const fileType = extensionFilename?.toLowerCase() ?? "";
                 const last_modified = new Date(
                   file.LastModified
                 ).toLocaleDateString("en-GB");
@@ -47,8 +49,8 @@ export default function TrashPage() {
                   <PreviewCardGrid
                     key={index}
                     author={author}
-                    fullTitle={fileName || ""}
-                    title={truncatedFileName || ""}
+                    fullTitle={fileName ?? ""}
+                    title={truncatedFileName ?? ""}
                     icon={getFileIcon(fileType)}
                     iconPreview={getFileIconPreview(fileType)}
                     last_modified={last_modified}
