@@ -14,13 +14,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { registerSchema } from "@/components/ui/FormConfig/Schema";
 import axios from "axios";
 import Config from "@/config";
 
 export default function Register() {
-  const pathname = usePathname();
   const router = useRouter();
 
   // 0. Check pathname

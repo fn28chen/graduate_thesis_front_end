@@ -103,7 +103,7 @@ const data = {
     },
     {
       title: "Trash",
-      url: "#",
+      url: "/trash",
       icon: Trash,
     },
   ],

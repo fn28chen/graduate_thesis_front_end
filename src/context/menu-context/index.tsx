@@ -1,4 +1,4 @@
-import { deleteFile, getDownloadPresignedUrl } from "@/app/api/ApiList";
+import { deleteFile, getDownloadPresignedUrl, moveToTrash } from "@/app/api/ApiList";
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -33,6 +33,15 @@ export function ContextRightClick({
     }
   };
 
+  const handleMoveToTrash = async () => {
+    try {
+      const response = await moveToTrash(fileName);
+      router.push(response);
+    } catch (error) {
+      console.error("Error when move to trash: ", error);
+    }
+  }
+
   const handleDelete = async () => {
     try {
       const response = await deleteFile(fileName);
@@ -52,21 +61,8 @@ export function ContextRightClick({
           Download
         </ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem inset onClick={handleDelete}>Delete</ContextMenuItem>
-        <ContextMenuItem inset>Copy</ContextMenuItem>
-        <ContextMenuSub>
-          <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
-          <ContextMenuSubContent className="w-48">
-            <ContextMenuItem>
-              Save Page As...
-              <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
-            </ContextMenuItem>
-            <ContextMenuItem>Create Shortcut...</ContextMenuItem>
-            <ContextMenuItem>Name Window...</ContextMenuItem>
-            <ContextMenuSeparator />
-            <ContextMenuItem>Developer Tools</ContextMenuItem>
-          </ContextMenuSubContent>
-        </ContextMenuSub>
+        <ContextMenuItem inset onClick={handleMoveToTrash}>Move To Trash</ContextMenuItem>
+        <ContextMenuItem inset onClick={handleDelete}>Delete Immediately</ContextMenuItem>
         <ContextMenuSeparator />
         <ContextMenuCheckboxItem checked>
           Show Bookmarks Bar
