@@ -67,7 +67,6 @@ export default function Profile() {
       console.log("Avatar uploaded successfully");
       handleClose();
       router.refresh();
-      
     } catch (error) {
       console.error("Error uploading avatar:", error);
     }
@@ -84,7 +83,7 @@ export default function Profile() {
       }
     }
 
-    fetchProfile();
+    fetchProfile().catch(console.error);
   }, [userProfile?.username]);
 
   return (
