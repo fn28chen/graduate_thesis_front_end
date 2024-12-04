@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { getFileIcon, getFileIconPreview } from "@/utils/common";
 import { IListMeDataType, IOwner } from "@/types";
@@ -14,13 +15,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ContextRightClick } from "@/context/menu-context";
+import { getCookies } from "typescript-cookie";
+import { useRouter } from "next/navigation";
 
 export default function Workspace({ view }: { view: string }) {
   const [fetchedFile, setFetchedFile] = useState<IListMeDataType[]>([]);
   const [totalFiles, setTotalFiles] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const router = useRouter();
 
   useEffect(() => {
+
+    // 1. Check accessToken and refreshToken in cookies, if expired/not available, redirect to login
+    const accessToken = getCookies().accessToken;
+    const refreshToken = getCookies().refreshToken;
+
+    if (!accessToken || !refreshToken) {
+      router.push("/login");
+      return;
+    }
+
+    // 2. Fetch Data
     async function fetchData() {
       const result = await getListMe({ page: currentPage, limit: 15 });
       setFetchedFile(result.files);
