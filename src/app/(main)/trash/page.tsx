@@ -20,7 +20,8 @@ export default function TrashPage() {
     fetchTrashData().catch((error) => {
       console.error(error);
     });
-  }, []);
+  }, [trashData]);
+
   return (
     <div>
       <h1>Trash</h1>

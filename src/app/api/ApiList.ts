@@ -6,6 +6,7 @@ const apiPath = {
   DownloadPresignedUrl: `/action/download-presigned`,
   ListTrash: "/action/trash",
   MoveToTrash: "/action/move-to-trash",
+  Restore: "/action/restore-file",
   Delete: "/action/delete",
 };
 
@@ -44,6 +45,13 @@ export function moveToTrash(fileName: string) {
   return apiRequest({
     method: "POST",
     endpoint: `${apiPath.MoveToTrash}/${fileName}`,
+  });
+}
+
+export function restoreFile(fileName: string) {
+  return apiRequest({
+    method: "POST",
+    endpoint: `${apiPath.Restore}/${fileName}`,
   });
 }
 

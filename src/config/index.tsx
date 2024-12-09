@@ -18,6 +18,7 @@ const PATHNAME = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   PROFILE: "/profile",
+  TRASH: "/trash",
 };
 
 // LAYOUT

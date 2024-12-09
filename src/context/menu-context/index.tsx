@@ -1,4 +1,9 @@
-import { deleteFile, getDownloadPresignedUrl, moveToTrash } from "@/app/api/ApiList";
+import {
+  deleteFile,
+  getDownloadPresignedUrl,
+  moveToTrash,
+  restoreFile,
+} from "@/app/api/ApiList";
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -6,12 +11,10 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuShortcut,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { useRouter } from "next/navigation";
+import config from "@/config";
+import { usePathname, useRouter } from "next/navigation";
 
 interface IContextRightClickProps {
   fileName: string;
@@ -23,6 +26,7 @@ export function ContextRightClick({
   children,
 }: IContextRightClickProps) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleDownload = async () => {
     try {
@@ -40,7 +44,7 @@ export function ContextRightClick({
     } catch (error) {
       console.error("Error when move to trash: ", error);
     }
-  }
+  };
 
   const handleDelete = async () => {
     try {
@@ -49,7 +53,16 @@ export function ContextRightClick({
     } catch (error) {
       console.error("Error when delete file: ", error);
     }
-  }
+  };
+
+  const handleRestore = async () => {
+    try {
+      const response = await restoreFile(fileName);
+      router.push(response);
+    } catch (error) {
+      console.error("Error when restore file: ", error);
+    }
+  };
 
   return (
     <ContextMenu>
@@ -61,8 +74,21 @@ export function ContextRightClick({
           Download
         </ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem inset onClick={handleMoveToTrash}>Move To Trash</ContextMenuItem>
-        <ContextMenuItem inset onClick={handleDelete}>Delete Immediately</ContextMenuItem>
+        {pathname !== config.PATHNAME.TRASH && (
+        <ContextMenuItem inset onClick={handleMoveToTrash}>
+          Move To Trash
+        </ContextMenuItem>
+        )}
+        {pathname === config.PATHNAME.TRASH && (
+          <ContextMenuItem inset onClick={handleDelete}>
+            Delete Immediately
+          </ContextMenuItem>
+        )}
+        {pathname === config.PATHNAME.TRASH && (
+          <ContextMenuItem inset onClick={handleRestore}>
+            Restore
+          </ContextMenuItem>
+        )}
         <ContextMenuSeparator />
         <ContextMenuCheckboxItem checked>
           Show Bookmarks Bar

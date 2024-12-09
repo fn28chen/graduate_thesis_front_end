@@ -17,6 +17,7 @@ import {
 import { ContextRightClick } from "@/context/menu-context";
 import { getCookies } from "typescript-cookie";
 import { useRouter } from "next/navigation";
+import config from "@/config";
 
 export default function Workspace({ view }: { view: string }) {
   const [fetchedFile, setFetchedFile] = useState<IListMeDataType[]>([]);
@@ -31,7 +32,7 @@ export default function Workspace({ view }: { view: string }) {
     const refreshToken = getCookies().refreshToken;
 
     if (!accessToken || !refreshToken) {
-      router.push("/login");
+      router.push(config.PATHNAME.LOGIN);
       return;
     }
 
