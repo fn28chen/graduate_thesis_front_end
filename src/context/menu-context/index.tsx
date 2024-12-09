@@ -1,6 +1,7 @@
 import {
   deleteFile,
   getDownloadPresignedUrl,
+  getListMe,
   moveToTrash,
   restoreFile,
 } from "@/app/api/ApiList";
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/context-menu";
 import config from "@/config";
 import { usePathname, useRouter } from "next/navigation";
+import { useMutation, useQueries, useQuery, useQueryClient } from "react-query";
 
 interface IContextRightClickProps {
   fileName: string;
@@ -27,6 +29,7 @@ export function ContextRightClick({
 }: IContextRightClickProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
 
   const handleDownload = async () => {
     try {
@@ -37,32 +40,41 @@ export function ContextRightClick({
     }
   };
 
-  const handleMoveToTrash = async () => {
-    try {
-      const response = await moveToTrash(fileName);
-      router.push(response);
-    } catch (error) {
-      console.error("Error when move to trash: ", error);
+  const handleMoveToTrash = useMutation(
+    async (fileId: string) => {
+      const response = await moveToTrash(fileId);
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("listMe");
+      },
     }
-  };
+  )
 
-  const handleDelete = async () => {
-    try {
-      const response = await deleteFile(fileName);
-      router.push(response);
-    } catch (error) {
-      console.error("Error when delete file: ", error);
+  const handleDelete = useMutation(
+    async (fileId: string) => {
+      const response = await deleteFile(fileId);
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("listMe");
+      },
     }
-  };
+  );
 
-  const handleRestore = async () => {
-    try {
-      const response = await restoreFile(fileName);
-      router.push(response);
-    } catch (error) {
-      console.error("Error when restore file: ", error);
+  const handleRestore = useMutation(
+    async (fileId: string) => {
+      const response = await restoreFile(fileId);
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("listMe");
+      },
     }
-  };
+  );
 
   return (
     <ContextMenu>
@@ -75,17 +87,17 @@ export function ContextRightClick({
         </ContextMenuItem>
         <ContextMenuSeparator />
         {pathname !== config.PATHNAME.TRASH && (
-        <ContextMenuItem inset onClick={handleMoveToTrash}>
-          Move To Trash
-        </ContextMenuItem>
+          <ContextMenuItem inset onClick={() => handleMoveToTrash.mutate(fileName)}>
+            Move To Trash
+          </ContextMenuItem>
         )}
         {pathname === config.PATHNAME.TRASH && (
-          <ContextMenuItem inset onClick={handleDelete}>
+          <ContextMenuItem inset onClick={() => handleDelete.mutate(fileName)}>
             Delete Immediately
           </ContextMenuItem>
         )}
         {pathname === config.PATHNAME.TRASH && (
-          <ContextMenuItem inset onClick={handleRestore}>
+          <ContextMenuItem inset onClick={() => handleRestore.mutate(fileName)}>
             Restore
           </ContextMenuItem>
         )}

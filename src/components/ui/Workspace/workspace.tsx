@@ -18,12 +18,22 @@ import { ContextRightClick } from "@/context/menu-context";
 import { getCookies } from "typescript-cookie";
 import { useRouter } from "next/navigation";
 import config from "@/config";
+import {useMutation, useQuery, useQueryClient} from "react-query";
 
 export default function Workspace({ view }: { view: string }) {
   const [fetchedFile, setFetchedFile] = useState<IListMeDataType[]>([]);
   const [totalFiles, setTotalFiles] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const router = useRouter();
+  const getFolderMe = useQuery("listMe", () => getListMe({ page: currentPage, limit: 15 }));
+  console.log("Data", getFolderMe.data);
+  // Set fetchedFile and totalFiles
+  useEffect(() => {
+    if (getFolderMe.data) {
+      setFetchedFile(getFolderMe.data.files);
+      setTotalFiles(getFolderMe.data.totalFiles);
+    }
+  }, [getFolderMe.data]);
 
   useEffect(() => {
 
@@ -35,15 +45,6 @@ export default function Workspace({ view }: { view: string }) {
       router.push(config.PATHNAME.LOGIN);
       return;
     }
-
-    // 2. Fetch Data
-    async function fetchData() {
-      const result = await getListMe({ page: currentPage, limit: 15 });
-      setFetchedFile(result.files);
-      console.log(result.files.owner);
-      setTotalFiles(result.totalFiles);
-    }
-    fetchData().catch((error) => console.error(error));
   }, [currentPage]);
 
   const handlePageChange = (page: number) => {
@@ -94,7 +95,6 @@ export default function Workspace({ view }: { view: string }) {
                       file.LastModified
                     ).toLocaleDateString("en-GB");
                     const author = file.owner?.DisplayName || "Unknown";
-                    console.log(author);
                     return (
                       <PreviewCardGrid
                         key={index}
