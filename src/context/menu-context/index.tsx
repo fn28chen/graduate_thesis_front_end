@@ -48,8 +48,11 @@ export function ContextRightClick({
       onSuccess: () => {
         queryClient.invalidateQueries("listMe");
       },
+      onError: (error) => {
+        console.error("Error moving file to trash:", error);
+      },
     }
-  )
+  );
 
   const handleDelete = useMutation(
     async (fileId: string) => {
@@ -60,6 +63,9 @@ export function ContextRightClick({
       onSuccess: () => {
         queryClient.invalidateQueries("trashFolder");
       },
+      onError: (error) => {
+        console.error("Error deleting file:", error);
+      }
     }
   );
 
@@ -72,6 +78,9 @@ export function ContextRightClick({
       onSuccess: () => {
         queryClient.invalidateQueries("trashFolder");
       },
+      onError: (error) => {
+        console.error("Error restoring file:", error);
+      }
     }
   );
 
