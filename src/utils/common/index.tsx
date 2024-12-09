@@ -23,6 +23,7 @@ import ICFilePreview from "@/components/icon/IconPreview/ICFilePreview";
 import ICVideoPreview from "@/components/icon/IconPreview/ICVideoPreview";
 import ICPDFPreview from "@/components/icon/IconPreview/ICPDFPreview";
 import ICImagePreview from "@/components/icon/IconPreview/ICImagePreview";
+import { GridColDef } from "@mui/x-data-grid";
 
 export function getFileIconColor(extension: string) {
   switch (extension) {
@@ -128,7 +129,6 @@ export const sidebarItems = [
 export function isTokenExpired(token: string): boolean {
   try {
     const payload = JSON.parse(atob(token.split(".")[1]));
-    console.log("Token payload", payload);
     const expiry = payload.exp;
     const now = Math.floor(Date.now() / 1000);
     return now > expiry;

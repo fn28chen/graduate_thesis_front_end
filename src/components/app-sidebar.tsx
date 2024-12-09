@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import config from "@/config";
+import { ModalProvider } from "./ui/Modal/modal";
 
 const data = {
   user: {
@@ -154,7 +155,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <ModalProvider>
+          <NavMain items={data.navMain} />
+        </ModalProvider>
         <div className="flex flex-row items-center justify-start p-2 gap-2">
           <HardDrive className="size-4" />
           <span className="text-base">7.5GB of 15GB used</span>

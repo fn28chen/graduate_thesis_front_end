@@ -57,13 +57,11 @@ export default function Sidebar() {
 
     try {
       // 1. Create a FormData object to handle file uploads
-      console.log("Upload file:", uploadFile);
       const formData = new FormData();
       formData.append("file", uploadFile);
 
       // 2. Send request to upload file
       const response = await createUploadFile(formData);
-      console.log("Upload successful:", response);
       
       toast({ description: "Upload complete!", duration: 2000 });
       setIsModalOpen(false);

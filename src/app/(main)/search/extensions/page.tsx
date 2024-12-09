@@ -40,7 +40,6 @@ export default function SearchByExtension() {
         const res = await getFileByExtension(ext);
         response = response.concat(res);
       }
-      console.log("Response", response);
       setFetchedFile(response);
       setLoading(false); // Set loading to false after data is fetched
     } catch (error) {

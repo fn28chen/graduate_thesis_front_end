@@ -29,7 +29,6 @@ export const logout = async () => {
       // Optionally, you can clear cookies or perform other cleanup actions here
       removeCookie("accessToken");
       removeCookie("refreshToken");
-      console.log("Logout successful");
     } else {
       console.warn("Unexpected response during logout:", response.data);
     }

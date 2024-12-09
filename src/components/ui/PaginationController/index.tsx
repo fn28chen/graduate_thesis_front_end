@@ -25,7 +25,6 @@ export default function PaginationController({
   const startFile = (currentPage - 1) * limit + 1;
   const endFile = Math.min(currentPage * limit, totalFiles);
 
-  console.log("Total pages", totalPages);
   return (
     <>
       <div>

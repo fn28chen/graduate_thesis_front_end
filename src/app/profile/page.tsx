@@ -64,7 +64,6 @@ export default function Profile() {
 
     try {
       await updateAvatar(data);
-      console.log("Avatar uploaded successfully");
       handleClose();
       router.refresh();
     } catch (error) {
@@ -76,7 +75,6 @@ export default function Profile() {
     async function fetchProfile() {
       try {
         const userProfile = await profile();
-        console.log("Profile:", userProfile);
         setUserProfile(userProfile);
       } catch (error) {
         console.error("Error fetching profile:", error);
