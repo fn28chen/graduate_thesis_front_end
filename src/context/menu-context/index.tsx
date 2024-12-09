@@ -1,7 +1,6 @@
 import {
   deleteFile,
   getDownloadPresignedUrl,
-  getListMe,
   moveToTrash,
   restoreFile,
 } from "@/app/api/ApiList";
@@ -16,7 +15,7 @@ import {
 } from "@/components/ui/context-menu";
 import config from "@/config";
 import { usePathname, useRouter } from "next/navigation";
-import { useMutation, useQueries, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 interface IContextRightClickProps {
   fileName: string;
@@ -59,7 +58,7 @@ export function ContextRightClick({
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("listMe");
+        queryClient.invalidateQueries("trashFolder");
       },
     }
   );
@@ -71,7 +70,7 @@ export function ContextRightClick({
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("listMe");
+        queryClient.invalidateQueries("trashFolder");
       },
     }
   );

@@ -18,14 +18,16 @@ import { ContextRightClick } from "@/context/menu-context";
 import { getCookies } from "typescript-cookie";
 import { useRouter } from "next/navigation";
 import config from "@/config";
-import {useMutation, useQuery, useQueryClient} from "react-query";
+import { useQuery } from "react-query";
 
 export default function Workspace({ view }: { view: string }) {
   const [fetchedFile, setFetchedFile] = useState<IListMeDataType[]>([]);
   const [totalFiles, setTotalFiles] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const router = useRouter();
-  const getFolderMe = useQuery("listMe", () => getListMe({ page: currentPage, limit: 15 }));
+  const getFolderMe = useQuery("listMe", () =>
+    getListMe({ page: currentPage, limit: 15 })
+  );
   console.log("Data", getFolderMe.data);
   // Set fetchedFile and totalFiles
   useEffect(() => {
@@ -36,7 +38,6 @@ export default function Workspace({ view }: { view: string }) {
   }, [getFolderMe.data]);
 
   useEffect(() => {
-
     // 1. Check accessToken and refreshToken in cookies, if expired/not available, redirect to login
     const accessToken = getCookies().accessToken;
     const refreshToken = getCookies().refreshToken;
