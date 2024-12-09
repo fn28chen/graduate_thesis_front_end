@@ -1,26 +1,23 @@
 "use client";
 import React, { useEffect } from "react";
 import { getTrashFolder } from "@/app/api/ApiList";
-import {
-  PreviewCardGrid,
-  PreviewCardList,
-} from "@/components/ui/PreviewCard/preview-card";
+import { PreviewCardGrid } from "@/components/ui/PreviewCard/preview-card";
 import { IOwner } from "@/types";
 import { getFileIcon, getFileIconPreview } from "@/utils/common";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { useQuery } from "react-query";
 
 export default function TrashPage() {
   const [trashData, setTrashData] = React.useState<any>(null);
+  const getTrashFolderMe = useQuery("trashFolder", getTrashFolder);
+  console.log("Trash Data", getTrashFolderMe.data);
 
   useEffect(() => {
-    async function fetchTrashData() {
-      const response = await getTrashFolder();
-      setTrashData(response);
+    if (getTrashFolderMe.data) {
+      setTrashData(getTrashFolderMe.data);
     }
-    fetchTrashData().catch((error) => {
-      console.error(error);
-    });
-  }, []);
+  }, [getTrashFolderMe.data]);
+
   return (
     <div>
       <h1>Trash</h1>

@@ -1,4 +1,9 @@
-import { deleteFile, getDownloadPresignedUrl, moveToTrash } from "@/app/api/ApiList";
+import {
+  deleteFile,
+  getDownloadPresignedUrl,
+  moveToTrash,
+  restoreFile,
+} from "@/app/api/ApiList";
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -6,12 +11,11 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuShortcut,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { useRouter } from "next/navigation";
+import config from "@/config";
+import { usePathname, useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "react-query";
 
 interface IContextRightClickProps {
   fileName: string;
@@ -23,6 +27,8 @@ export function ContextRightClick({
   children,
 }: IContextRightClickProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const queryClient = useQueryClient();
 
   const handleDownload = async () => {
     try {
@@ -33,23 +39,50 @@ export function ContextRightClick({
     }
   };
 
-  const handleMoveToTrash = async () => {
-    try {
-      const response = await moveToTrash(fileName);
-      router.push(response);
-    } catch (error) {
-      console.error("Error when move to trash: ", error);
+  const handleMoveToTrash = useMutation(
+    async (fileId: string) => {
+      const response = await moveToTrash(fileId);
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("listMe");
+      },
+      onError: (error) => {
+        console.error("Error moving file to trash:", error);
+      },
     }
-  }
+  );
 
-  const handleDelete = async () => {
-    try {
-      const response = await deleteFile(fileName);
-      router.push(response);
-    } catch (error) {
-      console.error("Error when delete file: ", error);
+  const handleDelete = useMutation(
+    async (fileId: string) => {
+      const response = await deleteFile(fileId);
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("trashFolder");
+      },
+      onError: (error) => {
+        console.error("Error deleting file:", error);
+      }
     }
-  }
+  );
+
+  const handleRestore = useMutation(
+    async (fileId: string) => {
+      const response = await restoreFile(fileId);
+      return response;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("trashFolder");
+      },
+      onError: (error) => {
+        console.error("Error restoring file:", error);
+      }
+    }
+  );
 
   return (
     <ContextMenu>
@@ -61,8 +94,21 @@ export function ContextRightClick({
           Download
         </ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem inset onClick={handleMoveToTrash}>Move To Trash</ContextMenuItem>
-        <ContextMenuItem inset onClick={handleDelete}>Delete Immediately</ContextMenuItem>
+        {pathname !== config.PATHNAME.TRASH && (
+          <ContextMenuItem inset onClick={() => handleMoveToTrash.mutate(fileName)}>
+            Move To Trash
+          </ContextMenuItem>
+        )}
+        {pathname === config.PATHNAME.TRASH && (
+          <ContextMenuItem inset onClick={() => handleDelete.mutate(fileName)}>
+            Delete Immediately
+          </ContextMenuItem>
+        )}
+        {pathname === config.PATHNAME.TRASH && (
+          <ContextMenuItem inset onClick={() => handleRestore.mutate(fileName)}>
+            Restore
+          </ContextMenuItem>
+        )}
         <ContextMenuSeparator />
         <ContextMenuCheckboxItem checked>
           Show Bookmarks Bar
