@@ -10,7 +10,6 @@ import { useQuery } from "react-query";
 export default function TrashPage() {
   const [trashData, setTrashData] = React.useState<any>(null);
   const getTrashFolderMe = useQuery("trashFolder", getTrashFolder);
-  console.log("Trash Data", getTrashFolderMe.data);
 
   useEffect(() => {
     if (getTrashFolderMe.data) {

@@ -46,14 +46,14 @@ export const ModalTrigger = ({
   children: ReactNode;
   className?: string;
 }) => {
-  const { setOpen } = useModal();
+  const { open, setOpen } = useModal();
   return (
     <button
       className={cn(
         "px-4 py-2 rounded-md text-black dark:text-white text-center relative overflow-hidden",
         className
       )}
-      onClick={() => setOpen(true)}
+      onClick={() => setOpen(!open)}
     >
       {children}
     </button>

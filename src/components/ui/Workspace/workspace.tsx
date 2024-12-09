@@ -25,10 +25,14 @@ export default function Workspace({ view }: { view: string }) {
   const [totalFiles, setTotalFiles] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const router = useRouter();
-  const getFolderMe = useQuery("listMe", () =>
-    getListMe({ page: currentPage, limit: 15 })
+  const getFolderMe = useQuery(
+    ["listMe", currentPage],
+    () => getListMe({ page: currentPage, limit: 15 }),
+    { keepPreviousData: true }
   );
+
   console.log("Data", getFolderMe.data);
+
   // Set fetchedFile and totalFiles
   useEffect(() => {
     if (getFolderMe.data) {
@@ -59,11 +63,8 @@ export default function Workspace({ view }: { view: string }) {
       ) : (
         <>
           <ScrollArea
-            className={`${
-              view === "grid"
-                ? "h-[calc(100vh-18rem)]"
-                : "h-[calc(100vh-25rem)]"
-            }`}
+            className={`h-[calc(100vh-16rem)]
+            `}
           >
             {view === "grid" ? (
               <div
@@ -112,10 +113,18 @@ export default function Workspace({ view }: { view: string }) {
                 )}
               </div>
             ) : (
-              <Table className="w-screen">
-                <TableHeader className="w-full">
-                  <TableRow className="w-screen">
-                    <TableHead className="w-1/2">File Name</TableHead>
+              <Table className="w-full">
+                <TableHeader className="relative">
+                  <TableRow className="">
+                    <TableHead className="">
+                      <div className="grid grid-cols-12 gap-4 sticky top-0 z-10">
+                        <div className="col-span-6">File Name</div>
+                        <div className="col-span-1">File Type</div>
+                        <div className="col-span-1">Size</div>
+                        <div className="col-span-2">Author</div>
+                        <div className="col-span-2">Upload Date</div>
+                      </div>
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 {fetchedFile.map(
@@ -144,21 +153,17 @@ export default function Workspace({ view }: { view: string }) {
                     const author = file.owner?.DisplayName || "Unknown";
                     return (
                       <ContextRightClick key={index} fileName={fileName ?? ""}>
-                        <TableBody className="w-full">
-                          <TableRow className="w-screen">
-                            <TableCell className="w-1/2">
-                              {truncatedFileName}
-                            </TableCell>
-                            <TableCell className="w-1/6">{fileType}</TableCell>
-                            <TableCell className="w-1/6">
+                        <TableRow className="w-full">
+                          <TableCell className="w-full grid grid-cols-12 gap-4">
+                            <div className="col-span-6">{fileName}</div>
+                            <div className="col-span-1">{fileType}</div>
+                            <div className="col-span-1">
                               {(size / 1024 / 1024).toFixed(2) + " MB"}
-                            </TableCell>
-                            <TableCell className="w-1/6">{author}</TableCell>
-                            <TableCell className="w-1/6">
-                              {last_modified}
-                            </TableCell>
-                          </TableRow>
-                        </TableBody>
+                            </div>
+                            <div className="col-span-2">{author}</div>
+                            <div className="col-span-2">{last_modified}</div>
+                          </TableCell>
+                        </TableRow>
                       </ContextRightClick>
                     );
                   }

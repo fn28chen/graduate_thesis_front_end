@@ -39,6 +39,18 @@ export function ContextRightClick({
     }
   };
 
+  const handleShowFullUrl = useMutation(
+    async (fileName: string) => {
+      const response = await getDownloadPresignedUrl(fileName);
+      return response;
+    },
+    {
+      onError: (error) => {
+        console.error("Error showing full URL:", error);
+      },
+    }
+  )
+
   const handleMoveToTrash = useMutation(
     async (fileId: string) => {
       const response = await moveToTrash(fileId);
@@ -114,7 +126,7 @@ export function ContextRightClick({
           Show Bookmarks Bar
           <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
         </ContextMenuCheckboxItem>
-        <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem onClick={() => handleShowFullUrl}>Show Full URLs</ContextMenuCheckboxItem>
       </ContextMenuContent>
     </ContextMenu>
   );

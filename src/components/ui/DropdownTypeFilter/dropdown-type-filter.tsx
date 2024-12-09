@@ -22,11 +22,11 @@ import { useRouter } from "next/navigation";
 
 const typeFilter = [
   { label: "All", value: "" },
-  { label: "Text", value: "txt" },
   { label: "Image", value: "img" },
   { label: "Audio", value: "aud" },
   { label: "Video", value: "mp4" },
   { label: "Document", value: "doc" },
+  { label: "Other", value: "other" },
 ];
 
 
@@ -88,6 +88,10 @@ export function DropdownTypeFilter() {
                           "ppt",
                           "pptx",
                         ];
+                        break;
+                      // case other is all other file types
+                      case "other":
+                        extensions = [];
                         break;
                       default:
                         extensions = []; // Ensure extensions is initialized to an empty array
