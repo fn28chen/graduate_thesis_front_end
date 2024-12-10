@@ -32,7 +32,8 @@ export function createUploadFile(formData: FormData) {
   return apiRequest({
     method: "POST",
     endpoint: apiPath.Upload,
-
+    isFormData: true,
+    data: formData,
   });
 }
 

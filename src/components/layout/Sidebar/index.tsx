@@ -62,7 +62,6 @@ export default function Sidebar() {
 
       // 2. Send request to upload file
       const response = await createUploadFile(formData);
-      
       toast({ description: "Upload complete!", duration: 2000 });
       setIsModalOpen(false);
       router.reload();

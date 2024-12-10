@@ -58,11 +58,11 @@ export function NavMain({ items }: NavMainProps) {
   const mutation = useMutation(createUploadFile, {
     onSuccess: () => {
       queryClient.invalidateQueries("listMe");
-      toast({ description: "Upload complete!" });
+      toast({ description: "Upload complete!", duration: 1000 });
     },
     onError: (error) => {
       console.error("Upload failed:", error);
-      toast({ description: "Upload failed!" });
+      toast({ description: "Upload failed!", duration: 1000 });
     },
   });
 
@@ -97,6 +97,7 @@ export function NavMain({ items }: NavMainProps) {
 
       // 2. Use mutation to upload file
       mutation.mutate(formData);
+
     } catch (error) {
       console.error("Upload failed:", error);
       toast({ description: "Upload failed!" });
@@ -123,22 +124,19 @@ export function NavMain({ items }: NavMainProps) {
                   <FileUpload onChange={handleFileUpload} />
                   <ModalFooter className="gap-4">
                     <Button
-                      className="px-2 py-1 bg-gray-200 text-black dark:bg-black dark:border-black dark:text-white border border-gray-300 rounded-md text-sm w-28"
+                      className="px-6 py-3 text-center overflow-hidden bg-gray-200 text-black dark:bg-black dark:border-black dark:text-white border border-gray-300 rounded-md text-sm w-28"
                       type="button"
                       onClick={() => form.reset()}
                     >
                       Cancel
                     </Button>
-                    <ModalTrigger>
-                      <Button
-                        className="bg-black text-white dark:bg-white dark:text-black text-sm px-2 py-1 rounded-md border border-black w-28"
-                        type="submit"
-                        disabled={isLoading}
-                        onClick={() => setOpen(false)}
-                      >
-                        Upload
-                      </Button>
-                    </ModalTrigger>
+                    <Button
+                      className="bg-black text-white dark:bg-white dark:text-black text-sm px-2 py-1 rounded-md border border-black w-28"
+                      type="submit"
+                      disabled={isLoading || !form.watch("uploadFile")}
+                    >
+                      Upload
+                    </Button>
                   </ModalFooter>
                 </form>
               </ModalContent>
