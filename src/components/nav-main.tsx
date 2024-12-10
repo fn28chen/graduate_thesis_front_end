@@ -58,11 +58,11 @@ export function NavMain({ items }: NavMainProps) {
   const mutation = useMutation(createUploadFile, {
     onSuccess: () => {
       queryClient.invalidateQueries("listMe");
-      toast({ description: "Upload complete!" });
+      toast({ description: "Upload complete!", duration: 1000 });
     },
     onError: (error) => {
       console.error("Upload failed:", error);
-      toast({ description: "Upload failed!" });
+      toast({ description: "Upload failed!", duration: 1000  });
     },
   });
 
