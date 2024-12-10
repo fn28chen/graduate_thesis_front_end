@@ -1,10 +1,9 @@
 "use client";
 import { getInfo } from "@/app/api/ApiList";
-import { IListMeDataType, IPreviewFile } from "@/types";
-import Image from "next/image";
+import { IPreviewFile } from "@/types";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 
 const PreviewPage = () => {
   const [previewFile, setPreviewFile] = useState<IPreviewFile>();
@@ -25,19 +24,28 @@ const PreviewPage = () => {
     }
   }, [getPreviewFile.data]);
 
-  console.log(getPreviewFile.data);
+  const isImage = (fileName: string | null) => {
+    if (!fileName) return false;
+    const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "webp"];
+    const fileExtension = fileName.split(".").pop()?.toLowerCase();
+    return imageExtensions.includes(fileExtension!);
+  };
 
   return (
     <div>
-      <h2>Preview Page</h2>
+      <h2 className="font-bold text-2xl">Preview Page</h2>
       {previewFile && (
         <div className="grid grid-cols-12 gap-4 divide-x-2">
           <div className="col-span-6">
-            <img
-              src={previewFile.url}
-              alt={fileName!}
-              style={{ width: "80%", height: "100%" }}
-            />
+            {fileName && isImage(fileName) ? (
+              <img
+                src={previewFile.url}
+                alt={fileName!}
+                style={{ width: "80%", height: "100%" }}
+              />
+            ) : (
+              <p>Sorry, this application only supports previewing images</p>
+            )}
           </div>
           <div className="col-span-6 pl-4">
             <p>
