@@ -8,6 +8,7 @@ interface IAPIRequest {
   endpoint: string;
   data?: any;
   isFormData?: boolean;
+  isOctetStream?: boolean;
   params?: DefaultParams;
 }
 
@@ -26,6 +27,7 @@ export async function apiRequest({
   endpoint,
   data,
   isFormData,
+  isOctetStream,
 }: IAPIRequest): Promise<any> {
   const url = `${Config.NETWORK_CONFIG.API_BASE_URL}${endpoint}`;
 
@@ -36,7 +38,11 @@ export async function apiRequest({
   }
 
   const headers: AxiosRequestConfig["headers"] = {
-    "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+    "Content-Type": isFormData
+      ? "multipart/form-data"
+      : isOctetStream
+      ? "application/octet-stream"
+      : "application/json",
     Authorization: authHeader, // Set the authorization header here
   };
 

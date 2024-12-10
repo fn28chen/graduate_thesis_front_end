@@ -53,3 +53,10 @@ export interface ISvgIcon {
   className?: string;
   style?: React.CSSProperties;
 }
+
+export interface IPreviewFile {
+  url: string;
+  ETag: string;
+  LastModified: string;
+  Size: number;
+}

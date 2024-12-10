@@ -17,6 +17,7 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex h-screen w-full">

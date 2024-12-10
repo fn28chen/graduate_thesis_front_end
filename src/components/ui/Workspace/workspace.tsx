@@ -31,8 +31,6 @@ export default function Workspace({ view }: { view: string }) {
     { keepPreviousData: true }
   );
 
-  console.log("Data", getFolderMe.data);
-
   // Set fetchedFile and totalFiles
   useEffect(() => {
     if (getFolderMe.data) {
@@ -138,10 +136,6 @@ export default function Workspace({ view }: { view: string }) {
                     index: number
                   ) => {
                     const fileName = file.Key.split("/").pop();
-                    const truncatedFileName =
-                      fileName && fileName.length > 12
-                        ? fileName.slice(0, 12) + "..."
-                        : (fileName ?? "");
                     const extensionFilename = fileName
                       ? fileName.split(".").pop()
                       : "";

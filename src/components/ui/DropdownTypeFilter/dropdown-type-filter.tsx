@@ -18,10 +18,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const typeFilter = [
-  { label: "All", value: "" },
   { label: "Image", value: "img" },
   { label: "Audio", value: "aud" },
   { label: "Video", value: "mp4" },
@@ -30,7 +29,11 @@ const typeFilter = [
 ];
 
 
-export function DropdownTypeFilter() {
+export function DropdownTypeFilter({
+  currentValue
+} : {
+  currentValue: string;
+}) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const router = useRouter();
@@ -44,15 +47,15 @@ export function DropdownTypeFilter() {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value
-            ? typeFilter.find((type) => type.value === value)?.label
+          {currentValue
+            ? typeFilter.find((type) => type.value === currentValue)?.label
             : "Select Type..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Search by extension..." />
           <CommandList>
             <CommandEmpty>No file found.</CommandEmpty>
             <CommandGroup>

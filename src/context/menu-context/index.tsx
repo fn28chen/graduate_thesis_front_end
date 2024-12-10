@@ -1,6 +1,7 @@
 import {
   deleteFile,
   getDownloadPresignedUrl,
+  getInfo,
   moveToTrash,
   restoreFile,
 } from "@/app/api/ApiList";
@@ -14,7 +15,9 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import config from "@/config";
+import { Modal } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 interface IContextRightClickProps {
@@ -41,15 +44,9 @@ export function ContextRightClick({
 
   const handleShowFullUrl = useMutation(
     async (fileName: string) => {
-      const response = await getDownloadPresignedUrl(fileName);
-      return response;
+      router.push(`/preview?fileName=${encodeURIComponent(fileName)}`);
     },
-    {
-      onError: (error) => {
-        console.error("Error showing full URL:", error);
-      },
-    }
-  )
+  );
 
   const handleMoveToTrash = useMutation(
     async (fileId: string) => {
@@ -77,7 +74,7 @@ export function ContextRightClick({
       },
       onError: (error) => {
         console.error("Error deleting file:", error);
-      }
+      },
     }
   );
 
@@ -92,7 +89,7 @@ export function ContextRightClick({
       },
       onError: (error) => {
         console.error("Error restoring file:", error);
-      }
+      },
     }
   );
 
@@ -106,11 +103,15 @@ export function ContextRightClick({
           Download
         </ContextMenuItem>
         <ContextMenuSeparator />
-        {pathname !== config.PATHNAME.TRASH && (
-          <ContextMenuItem inset onClick={() => handleMoveToTrash.mutate(fileName)}>
-            Move To Trash
-          </ContextMenuItem>
-        )}
+        {pathname !== config.PATHNAME.TRASH &&
+          !pathname.startsWith(config.PATHNAME.SEARCH) && (
+            <ContextMenuItem
+              inset
+              onClick={() => handleMoveToTrash.mutate(fileName)}
+            >
+              Move To Trash
+            </ContextMenuItem>
+          )}
         {pathname === config.PATHNAME.TRASH && (
           <ContextMenuItem inset onClick={() => handleDelete.mutate(fileName)}>
             Delete Immediately
@@ -121,12 +122,17 @@ export function ContextRightClick({
             Restore
           </ContextMenuItem>
         )}
+        <ContextMenuItem
+          inset
+          onClick={() => handleShowFullUrl.mutate(fileName)}
+        >
+          Preview
+        </ContextMenuItem>
         <ContextMenuSeparator />
         <ContextMenuCheckboxItem checked>
           Show Bookmarks Bar
           <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
         </ContextMenuCheckboxItem>
-        <ContextMenuCheckboxItem onClick={() => handleShowFullUrl}>Show Full URLs</ContextMenuCheckboxItem>
       </ContextMenuContent>
     </ContextMenu>
   );

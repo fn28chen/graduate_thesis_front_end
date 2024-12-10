@@ -3,11 +3,13 @@ import apiRequest from "./Fetcher";
 const apiPath = {
   List: "/action/list-me",
   Upload: "/action/upload",
+  GetFullUrl: "/action/get-info",
   DownloadPresignedUrl: `/action/download-presigned`,
   ListTrash: "/action/trash",
   MoveToTrash: "/action/move-to-trash",
   Restore: "/action/restore-file",
   Delete: "/action/delete",
+  TotalSize: "/action/total-size",
 };
 
 export async function getListMe(params: DefaultParams) {
@@ -18,12 +20,27 @@ export async function getListMe(params: DefaultParams) {
   return response;
 }
 
+export async function getTotalSize() {
+  const response = await apiRequest({
+    method: "GET",
+    endpoint: apiPath.TotalSize,
+  });
+  return response;
+}
+
 export function createUploadFile(formData: FormData) {
   return apiRequest({
     method: "POST",
     endpoint: apiPath.Upload,
-    isFormData: true,
-    data: formData,
+
+  });
+}
+
+export function getInfo(fileName: string) {
+  return apiRequest({
+    method: "GET",
+    endpoint: `${apiPath.GetFullUrl}/${fileName}`,
+    isOctetStream: true,
   });
 }
 
@@ -31,6 +48,7 @@ export function getDownloadPresignedUrl(fileName: string) {
   return apiRequest({
     method: "GET",
     endpoint: `${apiPath.DownloadPresignedUrl}/${fileName}`,
+
   });
 }
 
