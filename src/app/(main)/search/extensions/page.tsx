@@ -1,10 +1,12 @@
 "use client";
+import { getListMe } from "@/app/api/ApiList";
 import { getFileByExtension } from "@/app/api/ApiSearch";
 import { PreviewCardGrid } from "@/components/ui/PreviewCard/preview-card";
 import { IListMeDataType } from "@/types";
 import { getFileIcon, getFileIconPreview } from "@/utils/common";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 export default function SearchByExtension() {
   const searchParams = useSearchParams().get("query");
@@ -12,6 +14,11 @@ export default function SearchByExtension() {
   const [loading, setLoading] = useState(true); // State for loading status
   const [error, setError] = useState<string | null>(null); // State for error handling
   let extensions: string[] = [];
+  const getFileByExtensionQuery = useQuery(
+    ["getFileByExtension", searchParams],
+    () => getFileByExtension(searchParams!),
+    { enabled: !!searchParams }
+  );
 
   const fetchData = async (query: string) => {
     try {

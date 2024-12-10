@@ -28,30 +28,11 @@ import {
 import Link from "next/link";
 import config from "@/config";
 import { ModalProvider } from "./ui/Modal/modal";
+import { useQuery } from "react-query";
+import { getListMe, getTotalSize } from "@/app/api/ApiList";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
-    {
-      title: "My drive",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-      ],
-    },
     {
       title: "Documentation",
       url: "#",
@@ -71,29 +52,6 @@ const data = {
         },
         {
           title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
           url: "#",
         },
       ],
@@ -136,6 +94,9 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  // fetch total storage of user
+  const { data: totalStorage } = useQuery("totalStorage", () => getTotalSize());
+  const fixedTotalStorage = totalStorage ? (totalStorage / 1024 / 1024 / 1024).toFixed(1) : "0.0";
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -160,7 +121,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </ModalProvider>
         <div className="flex flex-row items-center justify-start p-2 gap-2">
           <HardDrive className="size-4" />
-          <span className="text-base">7.5GB of 15GB used</span>
+          
+            <span className="text-base">
+            {parseFloat(fixedTotalStorage) < 0.1
+              ? `${(totalStorage / 1024 / 1024).toFixed(1)} MB`
+              : `${fixedTotalStorage} GB`} of 50GB
+            </span>
         </div>
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
