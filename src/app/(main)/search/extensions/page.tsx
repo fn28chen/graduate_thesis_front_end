@@ -36,7 +36,7 @@ export default function SearchByExtension() {
           extensions = ["mp4", "avi", "mov", "wmv"];
           break;
         case "doc":
-          extensions = ["doc", "docx", "xls", "xlsx", "ppt", "pptx"];
+          extensions = ["doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf"];
           break;
         default:
           extensions = []; // Ensure extensions is initialized to an empty array
