@@ -60,7 +60,14 @@ const PreviewPage = () => {
               : `${previewFile.Size} B`}
             </p>
             <p>
-              <strong>Last Modified:</strong> {previewFile.LastModified}
+              <strong>Last Modified:</strong>{" "}
+              {new Date(previewFile.LastModified).toLocaleString("en-GB", {
+              hour: "2-digit",
+              minute: "2-digit",
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              }).replace(",", "")}
             </p>
           </div>
         </div>
