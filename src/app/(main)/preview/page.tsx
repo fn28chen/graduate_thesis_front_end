@@ -52,7 +52,12 @@ const PreviewPage = () => {
               <strong>File Name:</strong> {fileName}
             </p>
             <p>
-              <strong>Size:</strong> {previewFile.Size}
+              <strong>Size:</strong>{" "}
+              {previewFile.Size >= 1024 * 1024
+              ? `${(previewFile.Size / (1024 * 1024)).toFixed(2)} MB`
+              : previewFile.Size >= 1024
+              ? `${(previewFile.Size / 1024).toFixed(2)} KB`
+              : `${previewFile.Size} B`}
             </p>
             <p>
               <strong>Last Modified:</strong> {previewFile.LastModified}
