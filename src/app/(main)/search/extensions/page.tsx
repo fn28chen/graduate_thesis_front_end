@@ -30,7 +30,7 @@ export default function SearchByExtension() {
           extensions = ["txt"];
           break;
         case "aud":
-          extensions = ["mp3"];
+          extensions = ["mp3", "m4a"];
           break;
         case "mp4":
           extensions = ["mp4", "avi", "mov", "wmv"];
